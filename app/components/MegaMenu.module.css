@@ -53,6 +53,10 @@
 .categoryItem {
   cursor: pointer;
   transition: all 0.2s;
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 0;
 }
 
 .categoryHeader {
@@ -66,6 +70,14 @@
 .categoryItem:hover .categoryHeader {
   background: white;
   color: #667eea;
+}
+
+.categoryItemActive .categoryHeader {
+  background: white;
+  color: #111827;
+  font-weight: 600;
+  border-left: 4px solid #667eea;
+  padding-left: 16px;
 }
 
 .categoryIcon {
@@ -120,6 +132,29 @@
 .subcategoryName {
   font-size: 14px;
   font-weight: 500;
+}
+
+.sectionGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid #eef2ff;
+}
+
+.sectionTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.sectionItems {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 @media (max-width: 768px) {
