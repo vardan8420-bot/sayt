@@ -5,8 +5,8 @@ import { useApp } from '../context/AppContext'
 import styles from './MegaMenu.module.css'
 
 type Localized = {
-  ru: string
-  en: string
+    ru: string
+    en: string
   hy: string
   ka: string
 }
@@ -38,6 +38,26 @@ const text = (ru: string, en: string, hy: string, ka: string): Localized => ({
 })
 
 const categories: Category[] = [
+  {
+    id: 'rental',
+    name: text('Аренда', 'Rental', 'Վարձակալություն', 'გაქირავება'),
+    icon: '🏘️',
+    sections: [
+      {
+        id: 'rental-all',
+        title: text('Для всего', 'For everything', 'Բոլորի համար', 'ყველაფრისთვის'),
+        items: [
+          { id: 'rental-general', name: text('Для всего', 'For everything', 'Բոլորի համար', 'ყველაფრისთვის'), icon: '📋' },
+          { id: 'rental-houses', name: text('Дома', 'Houses', 'Տներ', 'სახლები'), icon: '🏠' },
+          { id: 'rental-apartments', name: text('Квартиры', 'Apartments', 'Բնակարաններ', 'ბინები'), icon: '🏢' },
+          { id: 'rental-villas', name: text('Виллы', 'Villas', 'Արձակուրդային տներ', 'ვილები'), icon: '🏖️' },
+          { id: 'rental-cars', name: text('Машины', 'Cars', 'Ավտոմեքենաներ', 'მანქანები'), icon: '🚗' },
+          { id: 'rental-equipment', name: text('Оборудование', 'Equipment', 'Սարքավորումներ', 'მოწყობილობა'), icon: '⚙️' },
+          { id: 'rental-other', name: text('Остальное', 'Other', 'Այլ', 'სხვა'), icon: '📦' },
+        ],
+      },
+    ],
+  },
   {
     id: 'electronics',
     name: text('Электроника', 'Electronics', 'Էլեկտրոնիկա', 'ელექტრონიკა'),
@@ -209,9 +229,9 @@ const categories: Category[] = [
           { id: 'stem', name: text('STEM наборы', 'STEM kits', 'STEM հավաքածուներ', 'STEM კიტები'), icon: '🧪' },
           { id: 'music-toys', name: text('Музыкальные игрушки', 'Music toys', 'Երաժշտական խաղալիքներ', 'მუსიკალური სათამაშოები'), icon: '🎹' },
           { id: 'crafts', name: text('Творчество', 'Arts & crafts', 'Ստեղծագործություն', 'ხელოვნება'), icon: '🎨' },
-        ],
-      },
-      {
+    ],
+  },
+  {
         id: 'playtime',
         title: text('Игровое время', 'Playtime', 'Խաղի ժամանակ', 'თამაშის დრო'),
         items: [
@@ -912,9 +932,9 @@ const categories: Category[] = [
           { id: 'spanish', name: text('Испанский', 'Spanish', 'Իսպաներեն', 'ესპანური'), icon: '🇪🇸' },
           { id: 'asian-languages', name: text('Азия и Восток', 'Asian & eastern', 'Ասիական', 'აზიური ენები'), icon: '🌏' },
           { id: 'regional-languages', name: text('Региональные программы', 'Regional programs', 'Տարածաշրջանային ծրագրեր', 'რეგიონული პროგრამები'), icon: '🗺️' },
-        ],
-      },
-      {
+    ],
+  },
+  {
         id: 'kids-learning',
         title: text('Детям и студентам', 'Kids & students', 'Մանկական և ուսանողական', 'ბავშვებს და სტუდენტებს'),
         items: [
@@ -1010,7 +1030,7 @@ export function MegaMenu({ isOpen: openProp, onOpenChange }: MegaMenuProps = {})
                 <div className={styles.categoryHeader}>
                   <span className={styles.categoryIcon}>{category.icon}</span>
                   <span className={styles.categoryName}>{getText(category.name)}</span>
-                  <span className={styles.arrow}>›</span>
+                    <span className={styles.arrow}>›</span>
                 </div>
               </button>
             ))}
@@ -1026,7 +1046,7 @@ export function MegaMenu({ isOpen: openProp, onOpenChange }: MegaMenuProps = {})
                       <a
                         key={item.id}
                         href={`/category/${item.id}`}
-                        className={styles.subcategoryItem}
+                    className={styles.subcategoryItem}
                         onClick={handleClose}
                       >
                         <span className={styles.subcategoryIcon}>{item.icon}</span>
@@ -1035,7 +1055,7 @@ export function MegaMenu({ isOpen: openProp, onOpenChange }: MegaMenuProps = {})
                     ))}
                   </div>
                 </div>
-              ))}
+                ))}
             </div>
           )}
         </div>

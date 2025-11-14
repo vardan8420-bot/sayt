@@ -34,3 +34,19 @@
   border-color: #111827;
 }
 
+.select {
+  width: 160px;
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  outline: none;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  font-size: 14px;
+}
+
+.select:focus {
+  border-color: #111827;
+}
+
