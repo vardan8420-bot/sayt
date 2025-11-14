@@ -137,8 +137,7 @@
   color: #9ca3af;
 }
 
-.compactSignIn,
-.compactRegister {
+.compactSignIn {
   padding: 8px 12px;
   font-size: 13px;
   font-weight: 500;
@@ -156,21 +155,9 @@
   justify-content: center;
 }
 
-.compactSignIn:hover,
-.compactRegister:hover {
+.compactSignIn:hover {
   background: #f9fafb;
   border-color: #9ca3af;
-}
-
-.compactRegister {
-  background: #667eea;
-  color: white;
-  border-color: #667eea;
-}
-
-.compactRegister:hover {
-  background: #5568d3;
-  border-color: #5568d3;
 }
 
 .compactUser {

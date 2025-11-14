@@ -55,9 +55,6 @@ export function AuthButtons({ compact = false }: AuthButtonsProps = {}) {
 				<Link href="/auth/signin" className={styles.compactSignIn}>
 					{t('Войти', 'Sign In', 'Մուտք', 'შესვლა')}
 				</Link>
-				<Link href="/auth/register" className={styles.compactRegister}>
-					{t('Регистрация', 'Register', 'Գրանցում', 'რეგისტრაცია')}
-				</Link>
 			</div>
 		)
 	}
@@ -93,7 +90,7 @@ export function AuthButtons({ compact = false }: AuthButtonsProps = {}) {
 	return (
 		<div className={styles.container}>
 			<h3 className={styles.title}>
-				{t('Войти или зарегистрироваться', 'Sign in or register', 'Մուտք կամ գրանցում', 'შესვლა ან რეგისტრაცია')}
+				{t('Войти', 'Sign In', 'Մուտք', 'შესვლა')}
 			</h3>
 			<div className={styles.buttons}>
 				<button
