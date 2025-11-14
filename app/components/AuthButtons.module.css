@@ -127,7 +127,8 @@
 .compactContainer {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .compactLoading {
@@ -138,8 +139,8 @@
 
 .compactSignIn,
 .compactRegister {
-  padding: 8px 16px;
-  font-size: 14px;
+  padding: 8px 12px;
+  font-size: 13px;
   font-weight: 500;
   border: 1px solid #d1d5db;
   border-radius: 6px;
@@ -148,6 +149,7 @@
   background: white;
   transition: all 0.2s ease;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .compactSignIn:hover,
