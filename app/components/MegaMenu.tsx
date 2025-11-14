@@ -930,10 +930,26 @@ const categories: Category[] = [
 
 const defaultCategoryId = categories[0]?.id ?? null
 
-export function MegaMenu() {
+type MegaMenuProps = {
+	isOpen?: boolean
+	onOpenChange?: (open: boolean) => void
+}
+
+export function MegaMenu({ isOpen: openProp, onOpenChange }: MegaMenuProps = {}) {
   const { language } = useApp()
-  const [isOpen, setIsOpen] = useState(false)
+  const [internalOpen, setInternalOpen] = useState(false)
   const [activeCategory, setActiveCategory] = useState<string | null>(defaultCategoryId)
+
+  const isControlled = typeof openProp === 'boolean'
+  const isOpen = isControlled ? openProp : internalOpen
+
+  const setOpenState = (next: boolean | ((prev: boolean) => boolean)) => {
+    const value = typeof next === 'function' ? (next as (prev: boolean) => boolean)(isOpen) : next
+    if (!isControlled) {
+      setInternalOpen(value)
+    }
+    onOpenChange?.(value)
+  }
 
   const activeCategoryData = useMemo(
     () => categories.find((category) => category.id === activeCategory),
@@ -958,11 +974,11 @@ export function MegaMenu() {
   const getText = (value: Localized) => value[language] ?? value.en
 
   const toggleMenu = () => {
-    setIsOpen((prev) => !prev)
+    setOpenState((prev) => !prev)
   }
 
   const handleClose = () => {
-    setIsOpen(false)
+    setOpenState(false)
     setActiveCategory(defaultCategoryId)
   }
 

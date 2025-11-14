@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense } from 'react'
+import { Suspense, useCallback, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useApp } from '../context/AppContext'
@@ -145,7 +145,6 @@ function Hero() {
 				</div>
 				<div className={styles.quickActions}>
 					<AuthButtons />
-					<MegaMenu />
 				</div>
 			</div>
 		</section>
@@ -155,6 +154,11 @@ function Hero() {
 export function Landing() {
 	const { language } = useApp()
 	const content = landingCopy[language] ?? landingCopy.en
+	const [isMegaMenuOpen, setMegaMenuOpen] = useState(false)
+
+	const handleCategoriesToggle = useCallback(() => {
+		setMegaMenuOpen((prev) => !prev)
+	}, [])
 
 	return (
 		<div className={styles.container}>
@@ -172,7 +176,7 @@ export function Landing() {
 					</Link>
 					<div className={styles.headerSearch}>
 						<Suspense fallback={null}>
-							<SearchBar />
+							<SearchBar onCategoriesClick={handleCategoriesToggle} />
 						</Suspense>
 					</div>
 				</div>
@@ -195,6 +199,11 @@ export function Landing() {
 					</Link>
 				</div>
 			</header>
+			{isMegaMenuOpen && (
+				<div className={styles.megaMenuWrapper}>
+					<MegaMenu isOpen={isMegaMenuOpen} onOpenChange={setMegaMenuOpen} />
+				</div>
+			)}
 			<Hero />
 
 			<section className={styles.discovery}>

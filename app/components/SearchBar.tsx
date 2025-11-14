@@ -15,7 +15,11 @@ type Suggestion = {
 	type: 'product' | 'trending'
 }
 
-export function SearchBar() {
+type SearchBarProps = {
+	onCategoriesClick?: () => void
+}
+
+export function SearchBar({ onCategoriesClick }: SearchBarProps = {}) {
 	const router = useRouter()
 	const params = useSearchParams()
 	const { translations, language } = useApp()
@@ -145,6 +149,7 @@ export function SearchBar() {
 					className={styles.categoriesButton}
 					aria-label={categoriesText}
 					title={categoriesText}
+					onClick={onCategoriesClick}
 				>
 					<span>{categoriesText}</span>
 					<svg

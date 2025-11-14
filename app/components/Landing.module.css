@@ -79,6 +79,15 @@
   min-width: 0;
 }
 
+.megaMenuWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 90;
+  margin-top: -8px;
+}
+
 .headerAuth {
   display: flex;
   align-items: center;
