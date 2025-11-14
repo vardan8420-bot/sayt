@@ -165,10 +165,10 @@ export function Landing() {
 			<header className={styles.header}>
 				<Link href="/" className={styles.logoLink}>
 					<Image
-						src="/favicon.svg"
+						src="/logo.png"
 						alt="SAYT Logo"
-						width={48}
-						height={48}
+						width={64}
+						height={64}
 						className={styles.logo}
 						priority
 					/>
