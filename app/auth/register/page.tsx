@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import styles from './AuthPage.module.css'
+import styles from '../AuthPage.module.css'
 
 export default function RegisterPage() {
 	const [email, setEmail] = useState('')

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
-import styles from './AuthPage.module.css'
+import styles from '../AuthPage.module.css'
 
 export default function SignInPage() {
 	const [email, setEmail] = useState('')

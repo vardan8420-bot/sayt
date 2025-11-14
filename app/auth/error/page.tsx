@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import styles from './AuthPage.module.css'
+import styles from '../AuthPage.module.css'
 
 const messages: Record<string, string> = {
 	Configuration: 'Ошибка конфигурации провайдера.',
