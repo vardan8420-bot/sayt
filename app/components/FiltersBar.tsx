@@ -62,35 +62,35 @@ export function FiltersBar() {
 				onChange={(e) => setRentalType(e.target.value)}
 				className={styles.select}
 			>
-				<option value="">{translations.rentalType[language]}</option>
-				<option value="all">{translations.rentalTypeAll[language]}</option>
-				<option value="house">{translations.rentalTypeHouse[language]}</option>
-				<option value="apartment">{translations.rentalTypeApartment[language]}</option>
-				<option value="villa">{translations.rentalTypeVilla[language]}</option>
-				<option value="car">{translations.rentalTypeCar[language]}</option>
-				<option value="equipment">{translations.rentalTypeEquipment[language]}</option>
+				<option value="">{translations.rentalType?.[language] || 'Тип аренды'}</option>
+				<option value="all">{translations.rentalTypeAll?.[language] || 'Все типы'}</option>
+				<option value="house">{translations.rentalTypeHouse?.[language] || 'Дом'}</option>
+				<option value="apartment">{translations.rentalTypeApartment?.[language] || 'Квартира'}</option>
+				<option value="villa">{translations.rentalTypeVilla?.[language] || 'Вилла'}</option>
+				<option value="car">{translations.rentalTypeCar?.[language] || 'Машина'}</option>
+				<option value="equipment">{translations.rentalTypeEquipment?.[language] || 'Оборудование'}</option>
 			</select>
 			<select
 				value={rentalPeriod}
 				onChange={(e) => setRentalPeriod(e.target.value)}
 				className={styles.select}
 			>
-				<option value="">{translations.rentalPeriod[language]}</option>
-				<option value="hourly">{translations.rentalPeriodHourly[language]}</option>
-				<option value="daily">{translations.rentalPeriodDaily[language]}</option>
-				<option value="weekly">{translations.rentalPeriodWeekly[language]}</option>
-				<option value="monthly">{translations.rentalPeriodMonthly[language]}</option>
-				<option value="yearly">{translations.rentalPeriodYearly[language]}</option>
+				<option value="">{translations.rentalPeriod?.[language] || 'Период аренды'}</option>
+				<option value="hourly">{translations.rentalPeriodHourly?.[language] || 'Почасовая'}</option>
+				<option value="daily">{translations.rentalPeriodDaily?.[language] || 'Дневная'}</option>
+				<option value="weekly">{translations.rentalPeriodWeekly?.[language] || 'Недельная'}</option>
+				<option value="monthly">{translations.rentalPeriodMonthly?.[language] || 'Месячная'}</option>
+				<option value="yearly">{translations.rentalPeriodYearly?.[language] || 'Годовая'}</option>
 			</select>
 			<select
 				value={sortBy}
 				onChange={(e) => setSortBy(e.target.value)}
 				className={styles.select}
 			>
-				<option value="">{translations.sortBy[language]}</option>
-				<option value="price">{translations.sortByPrice[language]}</option>
-				<option value="date">{translations.sortByDate[language]}</option>
-				<option value="popularity">{translations.sortByPopularity[language]}</option>
+				<option value="">{translations.sortBy?.[language] || 'Сортировка'}</option>
+				<option value="price">{translations.sortByPrice?.[language] || 'По цене'}</option>
+				<option value="date">{translations.sortByDate?.[language] || 'По дате'}</option>
+				<option value="popularity">{translations.sortByPopularity?.[language] || 'По популярности'}</option>
 			</select>
 			<button onClick={apply} className={styles.button}>
 				{translations.applyFilters[language]}
