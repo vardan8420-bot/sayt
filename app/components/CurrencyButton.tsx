@@ -1,5 +1,6 @@
 'use client'
 
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { useApp } from '../context/AppContext'
 import styles from './CurrencyButton.module.css'
 
@@ -8,42 +9,77 @@ type CurrencyButtonProps = {
 }
 
 export function CurrencyButton({ className }: CurrencyButtonProps = {}) {
-	const { currency, setCurrency, translations, language } = useApp()
+	const { currency, setCurrency } = useApp()
 	
-	const currencies: Array<{ code: 'USD' | 'EUR' | 'RUB'; symbol: string }> = [
-		{ code: 'USD', symbol: '$' },
-		{ code: 'EUR', symbol: '€' },
-		{ code: 'RUB', symbol: '₽' }
+	const currencies: Array<{ code: 'USD' | 'EUR' | 'RUB' | 'AMD'; symbol: string; name: string }> = [
+		{ code: 'USD', symbol: '$', name: 'US Dollar' },
+		{ code: 'EUR', symbol: '€', name: 'Euro' },
+		{ code: 'RUB', symbol: '₽', name: 'Russian Ruble' },
+		{ code: 'AMD', symbol: '֏', name: 'Armenian Dram' }
 	]
 
-	const handleCurrencyChange = (e: React.MouseEvent<HTMLButtonElement>, newCurrency: 'USD' | 'EUR' | 'RUB') => {
-		e.preventDefault()
-		e.stopPropagation()
-		if (currency !== newCurrency) {
-			setCurrency(newCurrency)
-		}
-	}
-
+	const currentCurrency = currencies.find(curr => curr.code === currency) || currencies[0]
 	const isHeader = className === 'header'
 
 	return (
-		<div className={`${styles.container} ${isHeader ? styles.header : ''} ${className && className !== 'header' ? className : ''}`}>
-      {!isHeader && <span className={styles.label}>{translations.currency[language]}:</span>}
-      <div className={styles.buttonGroup}>
-        {currencies.map((curr) => (
-          <button
-            key={curr.code}
-            className={`${styles.button} ${currency === curr.code ? styles.active : ''}`}
-            onClick={(e) => handleCurrencyChange(e, curr.code)}
-            type="button"
-            aria-label={`Switch to ${curr.code}`}
-            aria-pressed={currency === curr.code}
-          >
-            {curr.symbol} {curr.code}
-          </button>
-        ))}
-      </div>
-    </div>
-  )
-}
+		<DropdownMenu.Root>
+			<DropdownMenu.Trigger asChild>
+				<button
+					className={`${styles.trigger} ${isHeader ? styles.triggerHeader : ''}`}
+					aria-label="Select currency"
+				>
+					<span className={styles.symbol}>{currentCurrency.symbol}</span>
+					<span className={styles.code}>{currentCurrency.code}</span>
+					<svg
+						className={styles.chevronIcon}
+						width="12"
+						height="12"
+						viewBox="0 0 12 12"
+						fill="none"
+						stroke="currentColor"
+						strokeWidth="2"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					>
+						<polyline points="3 4 6 8 9 4"></polyline>
+					</svg>
+				</button>
+			</DropdownMenu.Trigger>
 
+			<DropdownMenu.Portal>
+				<DropdownMenu.Content className={`${styles.content} ${isHeader ? styles.contentHeader : ''}`} sideOffset={5}>
+					{currencies.map((curr) => (
+						<DropdownMenu.Item
+							key={curr.code}
+							className={`${styles.item} ${currency === curr.code ? styles.itemActive : ''}`}
+							onSelect={() => {
+								if (currency !== curr.code) {
+									setCurrency(curr.code)
+								}
+							}}
+						>
+							<span className={styles.itemSymbol}>{curr.symbol}</span>
+							<span className={styles.itemCode}>{curr.code}</span>
+							<span className={styles.itemName}>{curr.name}</span>
+							{currency === curr.code && (
+								<svg
+									className={styles.checkIcon}
+									width="16"
+									height="16"
+									viewBox="0 0 16 16"
+									fill="none"
+									stroke="currentColor"
+									strokeWidth="2"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+								>
+									<polyline points="4 8 7 11 12 5"></polyline>
+								</svg>
+							)}
+						</DropdownMenu.Item>
+					))}
+				</DropdownMenu.Content>
+			</DropdownMenu.Portal>
+		</DropdownMenu.Root>
+	)
+}

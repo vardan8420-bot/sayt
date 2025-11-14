@@ -133,10 +133,6 @@ function Hero() {
 						</li>
 					))}
 				</ul>
-				<div className={styles.controls}>
-					<CurrencyButton />
-					<LanguageButton />
-				</div>
 			</div>
 			<div className={styles.heroPanel}>
 				<div className={styles.statsGrid}>

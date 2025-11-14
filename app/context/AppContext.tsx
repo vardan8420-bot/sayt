@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react'
 
-type Currency = 'USD' | 'EUR' | 'RUB'
+type Currency = 'USD' | 'EUR' | 'RUB' | 'AMD'
 type Language = 'ru' | 'en' | 'hy' | 'ka'
 
 interface AppContextType {
@@ -146,7 +146,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined)
 const getStoredCurrency = (): Currency => {
   if (typeof window === 'undefined') return 'USD'
   const stored = localStorage.getItem('currency')
-  return (stored === 'USD' || stored === 'EUR' || stored === 'RUB') ? stored : 'USD'
+  return (stored === 'USD' || stored === 'EUR' || stored === 'RUB' || stored === 'AMD') ? stored : 'USD'
 }
 
 const getStoredLanguage = (): Language => {
