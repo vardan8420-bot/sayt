@@ -16,6 +16,11 @@ export async function GET(req: NextRequest) {
 		return NextResponse.json({ error: 'Too many requests' }, { status: 429, headers: rate.headers })
 	}
 
+	// Проверка наличия DATABASE_URL
+	if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('placeholder')) {
+		return NextResponse.json({ products: [], fallback: true }, { headers: rate.headers })
+	}
+
 	try {
 		const session = await getServerSession(authOptions)
 		const { searchParams } = new URL(req.url)
@@ -23,23 +28,39 @@ export async function GET(req: NextRequest) {
 		const productId = searchParams.get('productId')
 
 		if (productId) {
-			const products = await getSimilarProducts(productId, limit)
-			await logEvent('info', 'recommendations.similar', { productId, count: products.length })
-			return NextResponse.json({ products }, { headers: rate.headers })
+			try {
+				const products = await getSimilarProducts(productId, limit)
+				await logEvent('info', 'recommendations.similar', { productId, count: products.length })
+				return NextResponse.json({ products }, { headers: rate.headers })
+			} catch (error) {
+				// Если база данных недоступна, возвращаем пустой список
+				return NextResponse.json({ products: [], fallback: true }, { headers: rate.headers })
+			}
 		}
 
 		if (!session?.user) {
-			const products = await getPopularProducts(limit)
-			return NextResponse.json({ products, fallback: true }, { headers: rate.headers })
+			try {
+				const products = await getPopularProducts(limit)
+				return NextResponse.json({ products, fallback: true }, { headers: rate.headers })
+			} catch (error) {
+				// Если база данных недоступна, возвращаем пустой список
+				return NextResponse.json({ products: [], fallback: true }, { headers: rate.headers })
+			}
 		}
 
-		const products = await getAIRecommendations(session.user.id, limit)
-		await logEvent('info', 'recommendations.personal', { userId: session.user.id, count: products.length })
-		return NextResponse.json({ products }, { headers: rate.headers })
+		try {
+			const products = await getAIRecommendations(session.user.id, limit)
+			await logEvent('info', 'recommendations.personal', { userId: session.user.id, count: products.length })
+			return NextResponse.json({ products }, { headers: rate.headers })
+		} catch (error) {
+			// Если база данных недоступна, возвращаем пустой список
+			return NextResponse.json({ products: [], fallback: true }, { headers: rate.headers })
+		}
 	} catch (error: any) {
 		captureError(error, { route: '/api/recommendations', method: 'GET' })
 		await logEvent('error', 'recommendations.failed', { error: error?.message })
-		return NextResponse.json({ error: 'Internal server error', message: error.message }, { status: 500, headers: rate.headers })
+		// Возвращаем пустой список вместо ошибки 500
+		return NextResponse.json({ products: [], fallback: true }, { status: 200, headers: rate.headers })
 	}
 }
 
