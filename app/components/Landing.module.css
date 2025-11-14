@@ -14,6 +14,43 @@
   }
 }
 
+.header {
+  width: 100%;
+  padding: 16px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.logoLink:hover {
+  transform: scale(1.05);
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.logoText {
+  font-size: 1.75rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
+
 .hero {
   display: grid;
   gap: 32px;

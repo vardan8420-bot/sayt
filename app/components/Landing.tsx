@@ -1,6 +1,8 @@
 'use client'
 
 import { Suspense } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
 import { useApp } from '../context/AppContext'
 import { CurrencyButton } from './CurrencyButton'
 import { LanguageButton } from './LanguageButton'
@@ -160,6 +162,19 @@ export function Landing() {
 
 	return (
 		<div className={styles.container}>
+			<header className={styles.header}>
+				<Link href="/" className={styles.logoLink}>
+					<Image
+						src="/favicon.svg"
+						alt="SAYT Logo"
+						width={48}
+						height={48}
+						className={styles.logo}
+						priority
+					/>
+					<span className={styles.logoText}>SAYT</span>
+				</Link>
+			</header>
 			<Hero />
 
 			<section className={styles.discovery}>
