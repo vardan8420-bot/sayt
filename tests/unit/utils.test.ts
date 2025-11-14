@@ -22,7 +22,7 @@ describe('formatPrice', () => {
 	})
 
 	it('supports other currencies', () => {
-		expect(formatPrice(99, 'EUR')).toContain('€')
+		expect(formatPrice(99, 'GEL')).toContain('GEL')
 	})
 })
 

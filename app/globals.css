@@ -20,5 +20,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #f8fafc;
   min-height: 100vh;
+  scrollbar-gutter: stable both-edges;
 }
 

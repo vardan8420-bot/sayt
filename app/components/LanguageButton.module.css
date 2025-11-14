@@ -13,8 +13,8 @@
   transition: background-color 0.2s ease, border-color 0.2s ease;
   white-space: nowrap;
   height: 40px;
-  min-width: 90px;
-  max-width: 90px;
+  min-width: 120px;
+  max-width: 120px;
   box-sizing: border-box;
   will-change: auto;
 }
@@ -28,8 +28,8 @@
   padding: 8px 12px;
   font-size: 13px;
   height: 40px;
-  min-width: 90px;
-  max-width: 90px;
+  min-width: 120px;
+  max-width: 120px;
 }
 
 .globeIcon {

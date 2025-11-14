@@ -11,11 +11,11 @@ type CurrencyButtonProps = {
 export function CurrencyButton({ className }: CurrencyButtonProps = {}) {
 	const { currency, setCurrency, translations, language } = useApp()
 	
-	const currencies: Array<{ code: 'USD' | 'EUR' | 'RUB' | 'AMD'; symbol: string }> = [
+	const currencies: Array<{ code: 'USD' | 'RUB' | 'AMD' | 'GEL'; symbol: string }> = [
 		{ code: 'USD', symbol: '$' },
-		{ code: 'EUR', symbol: '€' },
 		{ code: 'RUB', symbol: '₽' },
-		{ code: 'AMD', symbol: '֏' }
+		{ code: 'AMD', symbol: '֏' },
+		{ code: 'GEL', symbol: '₾' }
 	]
 
 	const currentCurrency = currencies.find(curr => curr.code === currency) || currencies[0]

@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, ReactNode, useCallback, useMemo } from 'react'
 
-type Currency = 'USD' | 'EUR' | 'RUB' | 'AMD'
+type Currency = 'USD' | 'RUB' | 'AMD' | 'GEL'
 type Language = 'ru' | 'en' | 'hy' | 'ka'
 
 interface AppContextType {
@@ -263,12 +263,6 @@ const translations = {
       hy: 'ԱՄՆ դոլար',
       ka: 'აშშ დოლარი'
     },
-    EUR: {
-      ru: 'Евро',
-      en: 'Euro',
-      hy: 'Եվրո',
-      ka: 'ევრო'
-    },
     RUB: {
       ru: 'Российский рубль',
       en: 'Russian Ruble',
@@ -279,7 +273,13 @@ const translations = {
       ru: 'Армянский драм',
       en: 'Armenian Dram',
       hy: 'Հայկական դրամ',
-      ka: 'სომხური დრამი'
+      ka: 'სომხური დրամი'
+    },
+    GEL: {
+      ru: 'Грузинский лари',
+      en: 'Georgian Lari',
+      hy: 'Վրացական լարի',
+      ka: 'ქართული ლარი'
     }
   }
 }
@@ -290,7 +290,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined)
 const getStoredCurrency = (): Currency => {
   if (typeof window === 'undefined') return 'USD'
   const stored = localStorage.getItem('currency')
-  return (stored === 'USD' || stored === 'EUR' || stored === 'RUB' || stored === 'AMD') ? stored : 'USD'
+  return (stored === 'USD' || stored === 'RUB' || stored === 'AMD' || stored === 'GEL') ? stored : 'USD'
 }
 
 const getStoredLanguage = (): Language => {
