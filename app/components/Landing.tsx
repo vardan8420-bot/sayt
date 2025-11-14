@@ -168,8 +168,8 @@ export function Landing() {
 						<Image
 							src="/logo.png"
 							alt="SAYT Logo"
-							width={384}
-							height={384}
+							width={240}
+							height={240}
 							className={styles.logo}
 							priority
 						/>

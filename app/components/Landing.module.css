@@ -29,8 +29,8 @@
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(226, 232, 240, 0.5);
-  min-height: 192px;
-  height: 192px;
+  min-height: 120px;
+  height: 120px;
   overflow-x: auto;
   overflow-y: hidden;
 }
@@ -46,8 +46,8 @@
 .headerSearch {
   display: flex;
   align-items: center;
-  min-width: 250px;
-  max-width: 350px;
+  min-width: 200px;
+  max-width: 280px;
   flex: 0 1 auto;
 }
 
@@ -175,8 +175,8 @@
 }
 
 .logo {
-  width: 192px;
-  height: 192px;
+  width: 120px; /* Reduced to fit all elements */
+  height: 120px; /* Reduced to fit all elements */
   flex-shrink: 0;
   object-fit: contain;
 }
