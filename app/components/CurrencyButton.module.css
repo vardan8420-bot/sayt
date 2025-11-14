@@ -1,8 +1,8 @@
 .trigger {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
+  gap: 4px;
+  padding: 8px 10px;
   font-size: 14px;
   font-weight: 500;
   border: 1px solid #d1d5db;
@@ -13,10 +13,12 @@
   transition: background-color 0.2s ease, border-color 0.2s ease;
   white-space: nowrap;
   height: 40px;
-  min-width: 90px;
-  max-width: 90px;
+  min-width: 120px;
+  max-width: 120px;
   box-sizing: border-box;
   will-change: auto;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
 .trigger:hover {
@@ -25,38 +27,38 @@
 }
 
 .triggerHeader {
-  padding: 8px 12px;
+  padding: 8px 10px;
   font-size: 13px;
   height: 40px;
-  min-width: 90px;
-  max-width: 90px;
+  min-width: 120px;
+  max-width: 120px;
 }
 
 .symbol {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: #111827;
-  min-width: 20px;
+  min-width: 18px;
   text-align: center;
 }
 
 .code {
   font-weight: 600;
   color: #111827;
-  min-width: 40px;
-  max-width: 40px;
-  text-align: left;
+  min-width: 36px;
+  max-width: 36px;
+  text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .chevronIcon {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   flex-shrink: 0;
   color: #6b7280;
-  margin-left: 2px;
+  margin-left: auto;
 }
 
 .content {
