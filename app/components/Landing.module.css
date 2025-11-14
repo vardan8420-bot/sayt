@@ -63,49 +63,8 @@
 .headerControls {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.languageButtonWrapper :global(.container),
-.currencyButtonWrapper :global(.container) {
-  margin-bottom: 0;
   gap: 8px;
-}
-
-.languageButtonWrapper :global(.label),
-.currencyButtonWrapper :global(.label) {
-  font-size: 14px;
-  min-width: auto;
-  color: #374151;
-  font-weight: 500;
-}
-
-.languageButtonWrapper :global(.button),
-.currencyButtonWrapper :global(.button) {
-  padding: 6px 12px;
-  font-size: 14px;
-  font-weight: 500;
-  border: 1px solid #d1d5db;
-  background: white;
-  color: #374151;
-  border-radius: 6px;
-}
-
-.languageButtonWrapper :global(.button:hover),
-.currencyButtonWrapper :global(.button:hover) {
-  background: #f9fafb;
-  border-color: #9ca3af;
-  transform: none;
-  box-shadow: none;
-}
-
-.languageButtonWrapper :global(.button.active),
-.currencyButtonWrapper :global(.button.active) {
-  background: #667eea;
-  color: white;
-  border-color: #667eea;
-  box-shadow: none;
+  flex-wrap: nowrap;
 }
 
 .headerRight {

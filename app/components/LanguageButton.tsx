@@ -25,9 +25,11 @@ export function LanguageButton({ className }: LanguageButtonProps = {}) {
     }
   }
 
+	const isHeader = className === 'header'
+
 	return (
-		<div className={`${styles.container} ${className || ''}`}>
-      <span className={styles.label}>{translations.language[language]}:</span>
+		<div className={`${styles.container} ${isHeader ? styles.header : ''} ${className && className !== 'header' ? className : ''}`}>
+      {!isHeader && <span className={styles.label}>{translations.language[language]}:</span>}
       <div className={styles.buttonGroup}>
         {languages.map((lang) => (
           <button

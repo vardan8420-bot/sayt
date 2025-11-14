@@ -24,9 +24,11 @@ export function CurrencyButton({ className }: CurrencyButtonProps = {}) {
 		}
 	}
 
+	const isHeader = className === 'header'
+
 	return (
-		<div className={`${styles.container} ${className || ''}`}>
-      <span className={styles.label}>{translations.currency[language]}:</span>
+		<div className={`${styles.container} ${isHeader ? styles.header : ''} ${className && className !== 'header' ? className : ''}`}>
+      {!isHeader && <span className={styles.label}>{translations.currency[language]}:</span>}
       <div className={styles.buttonGroup}>
         {currencies.map((curr) => (
           <button

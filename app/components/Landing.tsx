@@ -182,12 +182,8 @@ export function Landing() {
 				</div>
 				<div className={styles.headerCenter}>
 					<div className={styles.headerControls}>
-						<Suspense fallback={null}>
-							<LanguageButton className="header" />
-						</Suspense>
-						<Suspense fallback={null}>
-							<CurrencyButton className="header" />
-						</Suspense>
+						<LanguageButton className="header" />
+						<CurrencyButton className="header" />
 					</div>
 				</div>
 				<div className={styles.headerRight}>
