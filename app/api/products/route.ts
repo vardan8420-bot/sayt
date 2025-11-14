@@ -128,6 +128,25 @@ export async function GET(req: NextRequest) {
     if (!rate.ok) {
       return NextResponse.json({ error: 'Too many requests' }, { status: 429, headers: rate.headers })
     }
+    
+    // Проверка наличия DATABASE_URL
+    if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('placeholder')) {
+      return NextResponse.json({
+        products: [],
+        pagination: {
+          page: 1,
+          limit: 20,
+          total: 0,
+          totalPages: 0,
+        },
+      }, {
+        headers: {
+          ...rate.headers,
+          'Cache-Control': 's-maxage=60, stale-while-revalidate=300'
+        }
+      })
+    }
+
     const { searchParams } = new URL(req.url)
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '20')
@@ -171,11 +190,19 @@ export async function GET(req: NextRequest) {
 
     // Поиск через Meilisearch при наличии q
     if (q) {
-      const results = await searchProducts(q, limit)
-      const ids = (results.hits as any[]).map(h => h.id)
-      if (ids.length > 0) {
-        where.id = { in: ids }
-      } else {
+      try {
+        const results = await searchProducts(q, limit)
+        const ids = (results.hits as any[]).map(h => h.id)
+        if (ids.length > 0) {
+          where.id = { in: ids }
+        } else {
+          where.OR = [
+            { title: { contains: q, mode: 'insensitive' } },
+            { description: { contains: q, mode: 'insensitive' } },
+          ]
+        }
+      } catch (searchError) {
+        // Если Meilisearch недоступен, используем обычный поиск
         where.OR = [
           { title: { contains: q, mode: 'insensitive' } },
           { description: { contains: q, mode: 'insensitive' } },
@@ -183,20 +210,39 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    [products, total] = await Promise.all([
-      prisma.product.findMany({
-        where,
-        include: {
-          seller: { select: { id: true, name: true, reputationScore: true } },
-          category: { select: { id: true, name: true, slug: true } },
-          _count: { select: { reviews: true, favorites: true } },
+    try {
+      [products, total] = await Promise.all([
+        prisma.product.findMany({
+          where,
+          include: {
+            seller: { select: { id: true, name: true, reputationScore: true } },
+            category: { select: { id: true, name: true, slug: true } },
+            _count: { select: { reviews: true, favorites: true } },
+          },
+          orderBy: { createdAt: 'desc' },
+          skip: (page - 1) * limit,
+          take: limit,
+        }),
+        prisma.product.count({ where }),
+      ])
+    } catch (dbError: any) {
+      // Если база данных недоступна, возвращаем пустой список
+      console.error('Database connection error:', dbError)
+      return NextResponse.json({
+        products: [],
+        pagination: {
+          page,
+          limit,
+          total: 0,
+          totalPages: 0,
         },
-        orderBy: { createdAt: 'desc' },
-        skip: (page - 1) * limit,
-        take: limit,
-      }),
-      prisma.product.count({ where }),
-    ])
+      }, {
+        headers: {
+          ...rate.headers,
+          'Cache-Control': 's-maxage=60, stale-while-revalidate=300'
+        }
+      })
+    }
 
     await logEvent('info', 'products.list', { q, page, total })
     return NextResponse.json({
@@ -217,10 +263,22 @@ export async function GET(req: NextRequest) {
     captureError(error, { route: '/api/products', method: 'GET' })
     await logEvent('error', 'products.list.failed', { error: error?.message })
     console.error('Error fetching products:', error)
-    return NextResponse.json(
-      { error: 'Internal server error', message: error.message },
-      { status: 500 }
-    )
+    
+    // Возвращаем пустой список вместо ошибки 500
+    return NextResponse.json({
+      products: [],
+      pagination: {
+        page: 1,
+        limit: 20,
+        total: 0,
+        totalPages: 0,
+      },
+    }, {
+      status: 200,
+      headers: {
+        'Cache-Control': 's-maxage=60, stale-while-revalidate=300'
+      }
+    })
   }
 }
 
