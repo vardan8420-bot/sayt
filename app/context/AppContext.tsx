@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import React, { createContext, useContext, useState, ReactNode, useCallback, useMemo } from 'react'
 
 type Currency = 'USD' | 'EUR' | 'RUB' | 'AMD'
 type Language = 'ru' | 'en' | 'hy' | 'ka'
@@ -303,30 +303,30 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [currency, setCurrencyState] = useState<Currency>(() => getStoredCurrency())
   const [language, setLanguageState] = useState<Language>(() => getStoredLanguage())
 
-  const setCurrency = (newCurrency: Currency) => {
+  const setCurrency = useCallback((newCurrency: Currency) => {
     setCurrencyState(newCurrency)
     if (typeof window !== 'undefined') {
       localStorage.setItem('currency', newCurrency)
     }
-  }
+  }, [])
 
-  const setLanguage = (newLanguage: Language) => {
+  const setLanguage = useCallback((newLanguage: Language) => {
     setLanguageState(newLanguage)
     if (typeof window !== 'undefined') {
       localStorage.setItem('language', newLanguage)
     }
-  }
+  }, [])
+
+  const contextValue = useMemo(() => ({
+    currency,
+    language,
+    setCurrency,
+    setLanguage,
+    translations
+  }), [currency, language, setCurrency, setLanguage])
 
   return (
-    <AppContext.Provider
-      value={{
-        currency,
-        language,
-        setCurrency,
-        setLanguage,
-        translations
-      }}
-    >
+    <AppContext.Provider value={contextValue}>
       {children}
     </AppContext.Provider>
   )
