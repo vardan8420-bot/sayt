@@ -1,0 +1,195 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 32px 24px 64px;
+  background: #f8fafc;
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sectionHeading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.sectionSubtitle {
+  color: #475467;
+  line-height: 1.4;
+  font-size: 0.95rem;
+}
+
+.sectionCard {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 15px 40px rgba(15, 23, 42, 0.08);
+}
+
+.primaryLink {
+  align-self: flex-start;
+  border-radius: 999px;
+  background: #111827;
+  color: #fff;
+  padding: 10px 18px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.overviewGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+.overviewCard {
+  background: #111827;
+  color: #e2e8f0;
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.overviewValue {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.overviewLabel {
+  font-size: 0.9rem;
+  color: rgba(226, 232, 240, 0.8);
+}
+
+.splitGrid {
+  display: grid;
+  gap: 24px;
+}
+
+@media (min-width: 1024px) {
+  .splitGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.ordersList,
+.productsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.orderCard,
+.productCard {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #fcfcfd;
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.orderMeta {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.orderDescription {
+  color: #475467;
+}
+
+.orderActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.linkButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #d0d5dd;
+  text-decoration: none;
+  font-weight: 600;
+  color: #111827;
+}
+
+.secondaryButton {
+  border-radius: 999px;
+  border: 1px solid #d0d5dd;
+  background: #f8fafc;
+  padding: 8px 14px;
+  font-weight: 600;
+}
+
+.inlineForm {
+  display: inline-flex;
+}
+
+.productTitle {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.productMeta {
+  color: #475467;
+  font-size: 0.9rem;
+}
+
+.statusBadge {
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  align-self: flex-start;
+}
+
+.badgePublished {
+  background: #dcfce7;
+  color: #166534;
+  border-color: #bbf7d0;
+}
+
+.badgeDraft {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+.emptyState {
+  border: 1px dashed #d0d5dd;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  color: #94a3b8;
+}
+
+
+

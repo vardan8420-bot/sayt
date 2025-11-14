@@ -1,0 +1,132 @@
+.container {
+  padding: 24px;
+  max-width: 420px;
+  margin: 40px auto;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #111827;
+}
+
+.subtitle {
+  margin-bottom: 16px;
+  color: #6b7280;
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #111827;
+  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1);
+}
+
+.submitButton {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #111827;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #1f2937;
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.errorMessage {
+  color: #b91c1c;
+  margin-top: 10px;
+}
+
+.successMessage {
+  color: #166534;
+  margin-top: 10px;
+}
+
+.socialButtons {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.socialButton {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.socialButton:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.footer {
+  margin-top: 16px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.footerLink {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+}
+
+.errorContainer {
+  padding: 24px;
+  max-width: 520px;
+  margin: 40px auto;
+}
+
+.errorTitle {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #111827;
+}
+
+.errorText {
+  color: #b91c1c;
+  margin-bottom: 16px;
+}
+
+.errorLink {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.errorLink:hover {
+  text-decoration: underline;
+}
+
+
+

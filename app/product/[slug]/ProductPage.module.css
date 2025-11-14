@@ -1,0 +1,91 @@
+.container {
+  padding: 24px;
+}
+
+.grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+
+.details {
+  display: grid;
+  gap: 12px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.category {
+  color: #6b7280;
+}
+
+.link {
+  color: #2563eb;
+}
+
+.price {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.description {
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.buttonPrimary {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #111827;
+  background: #111827;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.buttonSecondary {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.buttonPrimary:hover,
+.buttonSecondary:hover {
+  opacity: 0.9;
+  border-color: #111827;
+}
+
+.meta {
+  color: #6b7280;
+}
+
+.recommendations {
+  max-width: 1100px;
+  margin: 32px auto 0;
+}
+

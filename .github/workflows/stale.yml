@@ -1,0 +1,39 @@
+name: Mark Stale Issues and PRs
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Ежедневно в полночь
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark stale issues and PRs
+        uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          stale-issue-message: |
+            Это issue неактивно уже 60 дней. Если оно все еще актуально, пожалуйста, оставьте комментарий.
+            Иначе оно будет закрыто через 7 дней.
+          stale-pr-message: |
+            Этот PR неактивен уже 60 дней. Если он все еще актуален, пожалуйста, оставьте комментарий.
+            Иначе он будет закрыт через 7 дней.
+          close-issue-message: |
+            Issue закрыто из-за неактивности.
+          close-pr-message: |
+            PR закрыт из-за неактивности.
+          stale-issue-label: 'stale'
+          stale-pr-label: 'stale'
+          days-before-issue-stale: 60
+          days-before-pr-stale: 60
+          days-before-issue-close: 7
+          days-before-pr-close: 7
+          exempt-issue-labels: 'pinned,security'
+          exempt-pr-labels: 'pinned,security'
+
+

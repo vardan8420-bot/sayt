@@ -1,0 +1,20 @@
+ХОСТИНГ (для Next.js):
+https://vercel.com
+https://netlify.com
+https://render.com
+https://railway.app
+
+БАЗА ДАННЫХ (PostgreSQL):
+https://neon.tech
+https://supabase.com
+
+РЕКОМЕНДУЮ:
+1. https://vercel.com - хостинг
+2. https://neon.tech - база данных
+
+Оба БЕСПЛАТНО и работают отлично!
+
+
+
+
+

@@ -1,0 +1,24 @@
+# robots.txt для Sayt
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Googlebot
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+
+# Yandex
+User-agent: Yandex
+Allow: /
+Disallow: /api/
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://sayt.example.com/sitemap.xml
+

@@ -1,0 +1,603 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // directUrl = env("DIRECT_URL") // Опционально, для Prisma Accelerate
+}
+
+// ============================================
+// ПОЛЬЗОВАТЕЛИ (С РЕПУТАЦИЕЙ И РОЛЯМИ)
+// ============================================
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  phone         String?   @unique
+
+  // Роли (NextAuth совместимость)
+  role UserRole @default(USER)
+
+  // Репутация (сквозная для товаров, услуг, вакансий)
+  reputationScore Float @default(0.0) // -100 до +100
+  tradesCompleted Int   @default(0)
+  disputesWon     Int   @default(0)
+  disputesLost    Int   @default(0)
+
+  // Что может делать пользователь
+  isSeller     Boolean @default(false) // может продавать товары
+  isFreelancer Boolean @default(false) // может продавать услуги
+  isEmployer   Boolean @default(false) // может создавать вакансии
+  
+  // Верификация продавца (новое)
+  isVerified   Boolean @default(false) // верифицированный продавец
+  verifiedAt   DateTime?
+
+  // NextAuth связи
+  accounts Account[]
+  sessions Session[]
+
+  // Связи
+  products        Product[]
+  services        Service[]
+  jobPosts        JobPost[]
+  reviewsMade     Review[]       @relation("ReviewAuthor")
+  reviewsReceived Review[]       @relation("ReviewTarget")
+  messagesSent    Message[]      @relation("Sender")
+  messagesRecv    Message[]      @relation("Receiver")
+  ordersAsBuyer   Order[]        @relation("Buyer")
+  ordersAsSeller  Order[]        @relation("Seller")
+  cart            CartItem[]
+  addresses       Address[]
+  notifications   Notification[]
+  favorites       Favorite[]
+  subscriptions   Subscription[]
+
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  deletedAt       DateTime?        // Soft delete
+  jobApplications JobApplication[]
+
+  @@index([email])
+  @@index([deletedAt])
+}
+
+enum UserRole {
+  USER
+  SELLER
+  ADMIN
+}
+
+// Аккаунты для OAuth (NextAuth)
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+// Сессии (NextAuth)
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Токены верификации (NextAuth)
+model VerificationToken {
+  id         String   @id @default(cuid())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Категории товаров (иерархическая структура)
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?
+  image       String?
+  parentId    String?
+  parent      Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryTree")
+  products    Product[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?  // Soft delete
+
+  @@index([slug])
+  @@index([deletedAt])
+}
+
+// ============================================
+// ТОВАРЫ
+// ============================================
+model Product {
+  id             String    @id @default(cuid())
+  title          String
+  description    String    @db.Text
+  price          Decimal   @db.Decimal(10, 2) // точные цены с копейками
+  images         String[] // URL из UploadThing
+  categoryId     String?
+  category       Category? @relation(fields: [categoryId], references: [id])
+  location       String? // Город
+  tags           String[] // Теги для поиска ["electronics", "new"]
+
+  sellerId String
+  seller   User   @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+
+  published Boolean @default(false)
+  stock     Int     @default(1) // Количество доступных
+  reservedStock Int @default(0) // Резерв (в корзинах/заказах)
+
+  // Статистика
+  views     Int     @default(0) // Количество просмотров
+  soldCount Int     @default(0) // Количество проданных
+
+  // SEO и мета
+  slug      String  @unique
+  metaTitle String?
+  metaDesc  String?
+
+  // Связи
+  orderItems    OrderItem[]
+  cartItems     CartItem[]
+  reviews       Review[]
+  favorites     Favorite[]
+  priceHistory  PriceHistory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime? // Soft delete
+
+  @@index([categoryId, published, price])
+  @@index([sellerId, published])
+  @@index([slug])
+  @@index([published, createdAt])
+  @@index([deletedAt])
+}
+
+// История цен товаров (новое)
+model PriceHistory {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  price     Decimal  @db.Decimal(10, 2)
+  createdAt DateTime @default(now())
+
+  @@index([productId, createdAt])
+}
+
+// ============================================
+// УСЛУГИ (Фриланс)
+// ============================================
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  price       Decimal? @db.Decimal(10, 2) // null = договорная
+  priceType   PriceType @default(FIXED)
+
+  freelancerId String
+  freelancer   User   @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+
+  category String // Design, Programming, etc.
+  tags     String[] // ["react", "nextjs"]
+
+  published Boolean @default(false)
+
+  // Портфолио
+  portfolioImages String[]
+
+  // Сроки
+  deliveryTime Int? // в днях
+
+  // Статистика
+  views     Int @default(0)
+  soldCount Int @default(0)
+
+  // SEO
+  slug      String  @unique
+  metaTitle String?
+  metaDesc  String?
+
+  reviews      Review[]
+  orderItems   OrderItem[]
+  favorites    Favorite[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime? // Soft delete
+
+  @@index([freelancerId, published])
+  @@index([category, published])
+  @@index([slug])
+  @@index([deletedAt])
+}
+
+enum PriceType {
+  FIXED
+  HOURLY
+  PROJECT
+}
+
+// ============================================
+// ВАКАНСИИ
+// ============================================
+model JobPost {
+  id           String   @id @default(cuid())
+  title        String
+  description  String   @db.Text
+  requirements String[] // Массив строк
+
+  salaryMin Decimal? @db.Decimal(10, 2)
+  salaryMax Decimal? @db.Decimal(10, 2)
+  currency  String   @default("USD")
+
+  employerId String
+  employer   User   @relation(fields: [employerId], references: [id], onDelete: Cascade)
+
+  location String? // Офис/удаленка
+  remote   Boolean @default(false)
+
+  published Boolean @default(false)
+  archived  Boolean @default(false)
+
+  applications JobApplication[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime? // Soft delete
+
+  @@index([employerId, published])
+  @@index([deletedAt])
+}
+
+model JobApplication {
+  id        String  @id @default(cuid())
+  jobPostId String
+  jobPost   JobPost @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+
+  applicantId String
+  applicant   User   @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+
+  coverLetter String? @db.Text
+  status      ApplicationStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+
+  @@unique([jobPostId, applicantId])
+  @@index([applicantId])
+  @@index([status])
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+// ============================================
+// СДЕЛКИ (ОБЪЕДИНЯЕТ ТОВАРЫ И УСЛУГИ)
+// ============================================
+model Order {
+  id String @id @default(cuid())
+
+  // Кто участвует
+  buyerId String
+  buyer   User   @relation("Buyer", fields: [buyerId], references: [id])
+
+  sellerId String
+  seller   User   @relation("Seller", fields: [sellerId], references: [id])
+
+  // Элементы заказа (для множественных товаров)
+  items OrderItem[]
+
+  // Финансы
+  amount   Decimal     @db.Decimal(10, 2)
+  currency String      @default("USD")
+  status   OrderStatus @default(PENDING)
+
+  // Комиссия платформы
+  platformFee        Decimal? @db.Decimal(10, 2)
+  platformFeePercent Decimal? @db.Decimal(5, 2)
+
+  // Промокод
+  couponId String?
+  coupon   Coupon? @relation(fields: [couponId], references: [id])
+
+  // Детали заказа
+  subtotal      Decimal? @db.Decimal(10, 2)
+  tax           Decimal? @db.Decimal(10, 2)
+  shipping      Decimal? @db.Decimal(10, 2)
+  paymentMethod String?
+  paymentId     String? // Stripe Payment Intent ID
+
+  // Доставка
+  shippingAddressId String?
+  shippingAddress   Address? @relation(fields: [shippingAddressId], references: [id])
+  trackingNumber    String?
+
+  // AI-арбитраж
+  disputeStatus DisputeStatus?
+  disputeReason String?   @db.Text
+  aiDecision    Json? // { winnerId, reason, refundAmount }
+  resolvedAt    DateTime?
+
+  // Безопасность
+  escrowStatus    EscrowStatus @default(PENDING)
+  stripePaymentId String?      @unique
+
+  // Время
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  messages      Message[]
+  notifications Notification[]
+  statusHistory OrderStatusHistory[]
+
+  @@index([buyerId])
+  @@index([sellerId])
+  @@index([status])
+  @@index([disputeStatus])
+  @@index([escrowStatus])
+  @@index([createdAt])
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum DisputeStatus {
+  OPEN
+  RESOLVED
+  CLOSED
+}
+
+enum EscrowStatus {
+  PENDING
+  HELD
+  RELEASED
+  REFUNDED
+}
+
+// История статусов заказа (новое)
+model OrderStatusHistory {
+  id        String      @id @default(cuid())
+  orderId   String
+  order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status    OrderStatus
+  comment   String?     @db.Text
+  createdAt DateTime    @default(now())
+
+  @@index([orderId, createdAt])
+}
+
+// Элементы заказа (для множественных товаров в одном заказе)
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id])
+  serviceId String?
+  service   Service? @relation(fields: [serviceId], references: [id])
+  quantity  Int
+  price     Decimal  @db.Decimal(10, 2) // цена на момент заказа
+  createdAt DateTime @default(now())
+
+  @@index([orderId])
+}
+
+// Корзина
+model CartItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, productId])
+  @@index([userId])
+}
+
+// Адреса
+model Address {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName  String
+  lastName   String
+  company    String?
+  address1   String
+  address2   String?
+  city       String
+  state      String?
+  postalCode String
+  country    String
+  phone      String?
+  isDefault  Boolean  @default(false)
+  orders     Order[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  deletedAt  DateTime? // Soft delete
+
+  @@index([userId, deletedAt])
+}
+
+// ============================================
+// СООБЩЕНИЯ (ЧАТ МЕЖДУ ПОЛЬЗОВАТЕЛЯМИ)
+// ============================================
+model Message {
+  id String @id @default(cuid())
+
+  senderId String
+  sender   User   @relation("Sender", fields: [senderId], references: [id])
+
+  receiverId String
+  receiver   User   @relation("Receiver", fields: [receiverId], references: [id])
+
+  orderId String? // Привязка к сделке
+  order   Order?  @relation(fields: [orderId], references: [id])
+
+  content String  @db.Text
+  isRead  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  deletedAt DateTime? // Soft delete
+
+  @@index([senderId, receiverId])
+  @@index([orderId])
+  @@index([deletedAt])
+}
+
+// ============================================
+// ОТЗЫВЫ (С РЕПУТАЦИЕЙ)
+// ============================================
+model Review {
+  id String @id @default(cuid())
+
+  authorId String
+  author   User   @relation("ReviewAuthor", fields: [authorId], references: [id])
+
+  targetId String
+  target   User   @relation("ReviewTarget", fields: [targetId], references: [id])
+
+  // Что оцениваем
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  serviceId String?
+  service   Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  rating  Int // 1-5 (валидация в приложении)
+  comment String?  @db.Text
+  images  String[] // Доказательства
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime? // Soft delete
+
+  @@index([targetId, createdAt])
+  @@index([productId])
+  @@index([serviceId])
+  @@index([rating])
+  @@index([deletedAt])
+}
+
+// ============================================
+// УВЕДОМЛЕНИЯ
+// ============================================
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String // order, message, review, dispute, system
+  title     String
+  message   String   @db.Text
+  link      String?
+  read      Boolean  @default(false)
+  orderId   String?
+  order     Order?   @relation(fields: [orderId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@index([userId, read])
+  @@index([userId, createdAt])
+}
+
+// ============================================
+// ИЗБРАННОЕ/ЗАКЛАДКИ
+// ============================================
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  serviceId String?
+  service   Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+  @@unique([userId, serviceId])
+  @@index([userId])
+}
+
+// ============================================
+// ПРОМОКОДЫ/КУПОНЫ
+// ============================================
+model Coupon {
+  id           String      @id @default(cuid())
+  code         String      @unique
+  discount     Decimal     @db.Decimal(5, 2) // процент или сумма
+  discountType DiscountType @default(PERCENT)
+  minAmount    Decimal?    @db.Decimal(10, 2) // минимальная сумма заказа
+  maxUses      Int? // максимальное количество использований
+  usedCount    Int         @default(0)
+  validFrom    DateTime
+  validUntil   DateTime
+  active       Boolean     @default(true)
+  orders       Order[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([code, active])
+  @@index([validUntil, active])
+}
+
+enum DiscountType {
+  PERCENT
+  FIXED
+}
+
+// ============================================
+// ПОДПИСКИ НА ОБНОВЛЕНИЯ
+// ============================================
+model Subscription {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String // product, seller, category, price_drop
+  targetId  String // ID товара/продавца/категории
+  email     Boolean  @default(true)
+  push      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, type, targetId])
+  @@index([userId])
+  @@index([type, targetId])
+}

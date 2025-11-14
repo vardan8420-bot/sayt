@@ -1,0 +1,141 @@
+.megaMenu {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.menuToggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.menuToggle:hover {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.menuContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 8px;
+  display: flex;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  z-index: 1000;
+  min-height: 400px;
+}
+
+.categoriesList {
+  width: 300px;
+  border-right: 1px solid #e9ecef;
+  background: #f8f9fa;
+  overflow-y: auto;
+  max-height: 600px;
+}
+
+.categoryItem {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.categoryItem:hover .categoryHeader {
+  background: white;
+  color: #667eea;
+}
+
+.categoryIcon {
+  font-size: 20px;
+}
+
+.categoryName {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.arrow {
+  color: #667eea;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.subcategoriesPanel {
+  flex: 1;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  overflow-y: auto;
+  max-height: 600px;
+}
+
+.subcategoryItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.subcategoryItem:hover {
+  background: #f0f4ff;
+  border-color: #667eea;
+  color: #667eea;
+  transform: translateX(4px);
+}
+
+.subcategoryIcon {
+  font-size: 18px;
+}
+
+.subcategoryName {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .menuContainer {
+    flex-direction: column;
+    max-height: 80vh;
+  }
+
+  .categoriesList {
+    width: 100%;
+    max-height: 200px;
+  }
+
+  .subcategoriesPanel {
+    grid-template-columns: 1fr;
+    max-height: 400px;
+  }
+}
+

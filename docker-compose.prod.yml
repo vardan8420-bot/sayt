@@ -1,0 +1,54 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sayt-postgres-prod
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-sayt}
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-sayt}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sayt-network
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.7
+    container_name: sayt-meilisearch-prod
+    restart: always
+    environment:
+      MEILI_ENV: production
+      MEILI_MASTER_KEY: ${MEILISEARCH_MASTER_KEY}
+      MEILI_NO_ANALYTICS: 'true'
+      MEILI_LOG_LEVEL: INFO
+    ports:
+      - "7700:7700"
+    volumes:
+      - meili_data_prod:/meili_data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:7700/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sayt-network
+
+volumes:
+  postgres_data_prod:
+  meili_data_prod:
+
+networks:
+  sayt-network:
+    driver: bridge
+
+

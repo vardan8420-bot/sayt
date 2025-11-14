@@ -1,0 +1,20 @@
+ХОСТИНГ С РУССКИМ ИНТЕРФЕЙСОМ:
+
+https://cloud.yandex.ru - Яндекс.Облако (бесплатный tier)
+https://timeweb.com - Timeweb (бесплатный тест)
+https://selectel.ru - Selectel (бесплатный tier)
+https://beget.com - Beget (бесплатный тест)
+
+БАЗА ДАННЫХ С РУССКИМ ИНТЕРФЕЙСОМ:
+
+https://mcs.mail.ru - Mail.ru Cloud Solutions (PostgreSQL)
+https://cloud.yandex.ru/services/managed-postgresql - Яндекс PostgreSQL
+
+РЕКОМЕНДУЮ:
+1. https://cloud.yandex.ru - Яндекс.Облако (русский интерфейс)
+2. https://mcs.mail.ru - Mail.ru Cloud (русский интерфейс)
+
+
+
+
+

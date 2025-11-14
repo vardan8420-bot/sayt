@@ -1,0 +1,10 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Документация
+    url: https://github.com/yourusername/sayt#readme
+    about: Прочитайте документацию проекта
+  - name: Вопросы и обсуждения
+    url: https://github.com/yourusername/sayt/discussions
+    about: Задайте вопросы или обсудите идеи
+
+
