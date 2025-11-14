@@ -28,6 +28,12 @@ npm run dev
 
 ## 📚 Документация
 
+### 🌐 Деплой онлайн
+- [ONLINE-SETUP.md](./ONLINE-SETUP.md) - 🌐 **Быстрая инструкция по запуску онлайн**
+- [DEPLOY-ONLINE.md](./DEPLOY-ONLINE.md) - 🚀 **Полная инструкция по деплою (Vercel, VPS, Docker)**
+- [vercel-deploy.md](./vercel-deploy.md) - ⚡ **Детали деплоя на Vercel**
+
+### 🔧 Настройка
 - [GITHUB-SETUP.md](./GITHUB-SETUP.md) - 🚀 **Настройка GitHub Actions и автоматизации**
 - [DEPLOY.md](./DEPLOY.md) - 🚀 **Инструкция по развёртыванию на хостинге**
 - [SETUP-COMPLETE.md](./SETUP-COMPLETE.md) - ✅ Полный чеклист настройки
