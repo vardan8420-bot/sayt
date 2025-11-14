@@ -173,6 +173,11 @@ export function Landing() {
 						priority
 					/>
 				</Link>
+				<div className={styles.headerSearch}>
+					<Suspense fallback={null}>
+						<SearchBar />
+					</Suspense>
+				</div>
 			</header>
 			<Hero />
 
@@ -182,9 +187,6 @@ export function Landing() {
 					<p className={styles.sectionSubtitle}>{content.discoverySubtitle}</p>
 				</div>
 				<div className={styles.searchStack}>
-					<Suspense fallback={null}>
-						<SearchBar />
-					</Suspense>
 					<Suspense fallback={null}>
 						<FiltersBar />
 					</Suspense>
