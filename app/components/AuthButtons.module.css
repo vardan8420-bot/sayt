@@ -123,3 +123,78 @@
   padding: 20px;
 }
 
+/* Compact header styles */
+.compactContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.compactLoading {
+  width: 20px;
+  height: 20px;
+  color: #9ca3af;
+}
+
+.compactSignIn,
+.compactRegister {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #374151;
+  background: white;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.compactSignIn:hover,
+.compactRegister:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.compactRegister {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.compactRegister:hover {
+  background: #5568d3;
+  border-color: #5568d3;
+}
+
+.compactUser {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.compactAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.compactSignOut {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #dc3545;
+  border-radius: 6px;
+  background: white;
+  color: #dc3545;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.compactSignOut:hover {
+  background: #dc3545;
+  color: white;
+}
+

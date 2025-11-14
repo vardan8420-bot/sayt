@@ -38,3 +38,10 @@ next-env.d.ts
 
 
 /lib/generated/prisma
+
+# Token files
+PUSH-WITH-TOKEN.ps1
+push-now.ps1
+PUSH-COMPLETE.ps1
+PUSH-TOKEN.md
+*.ps1.token

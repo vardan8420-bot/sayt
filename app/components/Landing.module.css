@@ -20,6 +20,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 24px;
   margin-bottom: 16px;
   position: sticky;
   top: 0;
@@ -31,11 +32,105 @@
   height: 192px;
 }
 
-.headerSearch {
-  width: 30%;
+.headerLeft {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  gap: 16px;
+  flex: 0 0 auto;
+}
+
+.headerSearch {
+  display: flex;
+  align-items: center;
+  min-width: 300px;
+}
+
+.headerCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+}
+
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.languageButtonWrapper :global(.container),
+.currencyButtonWrapper :global(.container) {
+  margin-bottom: 0;
+  gap: 8px;
+}
+
+.languageButtonWrapper :global(.label),
+.currencyButtonWrapper :global(.label) {
+  font-size: 14px;
+  min-width: auto;
+  color: #374151;
+  font-weight: 500;
+}
+
+.languageButtonWrapper :global(.button),
+.currencyButtonWrapper :global(.button) {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  border-radius: 6px;
+}
+
+.languageButtonWrapper :global(.button:hover),
+.currencyButtonWrapper :global(.button:hover) {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  transform: none;
+  box-shadow: none;
+}
+
+.languageButtonWrapper :global(.button.active),
+.currencyButtonWrapper :global(.button.active) {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+  box-shadow: none;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 0 0 auto;
+}
+
+.headerAuth {
+  display: flex;
+  align-items: center;
+}
+
+.cartLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.cartLink:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.cartIcon {
+  width: 24px;
+  height: 24px;
+  stroke: #111827;
 }
 
 @media (max-width: 768px) {

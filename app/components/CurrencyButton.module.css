@@ -5,11 +5,23 @@
   margin-bottom: 20px;
 }
 
+.container.header {
+  margin-bottom: 0;
+  gap: 8px;
+}
+
 .label {
   font-size: 18px;
   font-weight: 600;
   color: white;
   min-width: 100px;
+}
+
+.container.header .label {
+  font-size: 14px;
+  min-width: auto;
+  color: #374151;
+  font-weight: 500;
 }
 
 .buttonGroup {
@@ -33,6 +45,16 @@
   outline: none;
 }
 
+.container.header .button {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  border-radius: 6px;
+}
+
 .button:hover {
   background: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.5);
@@ -40,11 +62,25 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+.container.header .button:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  transform: none;
+  box-shadow: none;
+}
+
 .button.active {
   background: rgba(255, 255, 255, 0.9);
   color: #667eea;
   border-color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.container.header .button.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+  box-shadow: none;
 }
 
 .button:active {

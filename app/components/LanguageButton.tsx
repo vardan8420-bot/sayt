@@ -3,7 +3,11 @@
 import { useApp } from '../context/AppContext'
 import styles from './LanguageButton.module.css'
 
-export function LanguageButton() {
+type LanguageButtonProps = {
+	className?: string
+}
+
+export function LanguageButton({ className }: LanguageButtonProps = {}) {
   const { language, setLanguage, translations } = useApp()
   
   const languages: Array<{ code: 'ru' | 'en' | 'hy' | 'ka'; name: string }> = [
@@ -21,8 +25,8 @@ export function LanguageButton() {
     }
   }
 
-  return (
-    <div className={styles.container}>
+	return (
+		<div className={`${styles.container} ${className || ''}`}>
       <span className={styles.label}>{translations.language[language]}:</span>
       <div className={styles.buttonGroup}>
         {languages.map((lang) => (

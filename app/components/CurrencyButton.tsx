@@ -3,25 +3,29 @@
 import { useApp } from '../context/AppContext'
 import styles from './CurrencyButton.module.css'
 
-export function CurrencyButton() {
-  const { currency, setCurrency, translations, language } = useApp()
-  
-  const currencies: Array<{ code: 'USD' | 'EUR' | 'RUB'; symbol: string }> = [
-    { code: 'USD', symbol: '$' },
-    { code: 'EUR', symbol: '€' },
-    { code: 'RUB', symbol: '₽' }
-  ]
+type CurrencyButtonProps = {
+	className?: string
+}
 
-  const handleCurrencyChange = (e: React.MouseEvent<HTMLButtonElement>, newCurrency: 'USD' | 'EUR' | 'RUB') => {
-    e.preventDefault()
-    e.stopPropagation()
-    if (currency !== newCurrency) {
-      setCurrency(newCurrency)
-    }
-  }
+export function CurrencyButton({ className }: CurrencyButtonProps = {}) {
+	const { currency, setCurrency, translations, language } = useApp()
+	
+	const currencies: Array<{ code: 'USD' | 'EUR' | 'RUB'; symbol: string }> = [
+		{ code: 'USD', symbol: '$' },
+		{ code: 'EUR', symbol: '€' },
+		{ code: 'RUB', symbol: '₽' }
+	]
 
-  return (
-    <div className={styles.container}>
+	const handleCurrencyChange = (e: React.MouseEvent<HTMLButtonElement>, newCurrency: 'USD' | 'EUR' | 'RUB') => {
+		e.preventDefault()
+		e.stopPropagation()
+		if (currency !== newCurrency) {
+			setCurrency(newCurrency)
+		}
+	}
+
+	return (
+		<div className={`${styles.container} ${className || ''}`}>
       <span className={styles.label}>{translations.currency[language]}:</span>
       <div className={styles.buttonGroup}>
         {currencies.map((curr) => (
