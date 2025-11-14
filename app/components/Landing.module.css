@@ -46,9 +46,9 @@
 .headerSearch {
   display: flex;
   align-items: center;
-  min-width: 200px;
-  max-width: 560px;
-  flex: 0 1 auto;
+  min-width: 300px;
+  max-width: 600px;
+  flex: 1 1 auto;
   width: 100%;
 }
 
