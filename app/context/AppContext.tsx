@@ -11,9 +11,7 @@ interface AppContextType {
   setCurrency: (currency: Currency) => void
   setLanguage: (language: Language) => void
   translations: {
-    [key: string]: {
-      [key in Language]: string
-    }
+    [key: string]: any
   }
 }
 
@@ -137,6 +135,146 @@ const translations = {
     en: 'No recommendations yet',
     hy: 'Առաջարկություններ դեռ չկան',
     ka: 'რეკომენდაციები ჯერ არაა'
+  },
+  signIn: {
+    ru: 'Войти',
+    en: 'Sign In',
+    hy: 'Մուտք',
+    ka: 'შესვლა'
+  },
+  register: {
+    ru: 'Регистрация',
+    en: 'Register',
+    hy: 'Գրանցում',
+    ka: 'რეგისტრაცია'
+  },
+  signOut: {
+    ru: 'Выйти',
+    en: 'Sign Out',
+    hy: 'Ելք',
+    ka: 'გასვლა'
+  },
+  signInTitle: {
+    ru: 'Вход',
+    en: 'Sign In',
+    hy: 'Մուտք',
+    ka: 'შესვლა'
+  },
+  signInSubtitle: {
+    ru: 'Войдите с помощью email/пароля или через провайдеров.',
+    en: 'Sign in with email/password or using providers.',
+    hy: 'Մուտք գործեք email/գաղտնաբառով կամ օգտագործելով մատակարարներ:',
+    ka: 'შედით email/პაროლით ან მომწოდებლების გამოყენებით.'
+  },
+  email: {
+    ru: 'Email',
+    en: 'Email',
+    hy: 'Email',
+    ka: 'Email'
+  },
+  password: {
+    ru: 'Пароль',
+    en: 'Password',
+    hy: 'Գաղտնաբառ',
+    ka: 'პაროლი'
+  },
+  signingIn: {
+    ru: 'Входим...',
+    en: 'Signing in...',
+    hy: 'Մուտք գործելու համար...',
+    ka: 'შესვლა...'
+  },
+  signInError: {
+    ru: 'Неверный email или пароль',
+    en: 'Invalid email or password',
+    hy: 'Սխալ email կամ գաղտնաբառ',
+    ka: 'არასწორი email ან პაროლი'
+  },
+  signInWithGitHub: {
+    ru: 'Войти через GitHub',
+    en: 'Sign in with GitHub',
+    hy: 'Մուտք GitHub-ով',
+    ka: 'შესვლა GitHub-ით'
+  },
+  signInWithGoogle: {
+    ru: 'Войти через Google',
+    en: 'Sign in with Google',
+    hy: 'Մուտք Google-ով',
+    ka: 'შესვლა Google-ით'
+  },
+  noAccount: {
+    ru: 'Нет аккаунта?',
+    en: 'No account?',
+    hy: 'Չունեք հաշիվ?',
+    ka: 'არ გაქვთ ანგარიში?'
+  },
+  registerLink: {
+    ru: 'Зарегистрироваться',
+    en: 'Register',
+    hy: 'Գրանցվել',
+    ka: 'რეგისტრაცია'
+  },
+  registerTitle: {
+    ru: 'Регистрация',
+    en: 'Register',
+    hy: 'Գրանցում',
+    ka: 'რეგისტრაცია'
+  },
+  name: {
+    ru: 'Имя (необязательно)',
+    en: 'Name (optional)',
+    hy: 'Անուն (ընտրովի)',
+    ka: 'სახელი (არასავალდებულო)'
+  },
+  registering: {
+    ru: 'Отправка...',
+    en: 'Registering...',
+    hy: 'Գրանցվում է...',
+    ka: 'რეგისტრაცია...'
+  },
+  registerSuccess: {
+    ru: 'Успешно! Теперь вы можете войти.',
+    en: 'Success! You can now sign in.',
+    hy: 'Հաջողված! Այժմ կարող եք մուտք գործել:',
+    ka: 'წარმატება! ახლა შეგიძლიათ შეხვიდეთ.'
+  },
+  registerError: {
+    ru: 'Ошибка регистрации',
+    en: 'Registration error',
+    hy: 'Գրանցման սխալ',
+    ka: 'რეგისტრაციის შეცდომა'
+  },
+  alreadyHaveAccount: {
+    ru: 'Уже есть аккаунт?',
+    en: 'Already have an account?',
+    hy: 'Արդեն ունեք հաշիվ?',
+    ka: 'უკვე გაქვთ ანგარიში?'
+  },
+  currencyNames: {
+    USD: {
+      ru: 'Доллар США',
+      en: 'US Dollar',
+      hy: 'ԱՄՆ դոլար',
+      ka: 'აშშ დოლარი'
+    },
+    EUR: {
+      ru: 'Евро',
+      en: 'Euro',
+      hy: 'Եվրո',
+      ka: 'ევრო'
+    },
+    RUB: {
+      ru: 'Российский рубль',
+      en: 'Russian Ruble',
+      hy: 'Ռուսական ռուբլի',
+      ka: 'რუსული რუბლი'
+    },
+    AMD: {
+      ru: 'Армянский драм',
+      en: 'Armenian Dram',
+      hy: 'Հայկական դրամ',
+      ka: 'სომხური დრამი'
+    }
   }
 }
 

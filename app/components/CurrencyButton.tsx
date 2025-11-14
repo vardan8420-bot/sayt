@@ -9,13 +9,13 @@ type CurrencyButtonProps = {
 }
 
 export function CurrencyButton({ className }: CurrencyButtonProps = {}) {
-	const { currency, setCurrency } = useApp()
+	const { currency, setCurrency, translations, language } = useApp()
 	
-	const currencies: Array<{ code: 'USD' | 'EUR' | 'RUB' | 'AMD'; symbol: string; name: string }> = [
-		{ code: 'USD', symbol: '$', name: 'US Dollar' },
-		{ code: 'EUR', symbol: '€', name: 'Euro' },
-		{ code: 'RUB', symbol: '₽', name: 'Russian Ruble' },
-		{ code: 'AMD', symbol: '֏', name: 'Armenian Dram' }
+	const currencies: Array<{ code: 'USD' | 'EUR' | 'RUB' | 'AMD'; symbol: string }> = [
+		{ code: 'USD', symbol: '$' },
+		{ code: 'EUR', symbol: '€' },
+		{ code: 'RUB', symbol: '₽' },
+		{ code: 'AMD', symbol: '֏' }
 	]
 
 	const currentCurrency = currencies.find(curr => curr.code === currency) || currencies[0]
@@ -60,7 +60,7 @@ export function CurrencyButton({ className }: CurrencyButtonProps = {}) {
 						>
 							<span className={styles.itemSymbol}>{curr.symbol}</span>
 							<span className={styles.itemCode}>{curr.code}</span>
-							<span className={styles.itemName}>{curr.name}</span>
+							<span className={styles.itemName}>{(translations.currencyNames as any)[curr.code]?.[language] || curr.code}</span>
 							{currency === curr.code && (
 								<svg
 									className={styles.checkIcon}

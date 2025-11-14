@@ -17,11 +17,11 @@
 .header {
   width: 100%;
   max-width: 100vw;
-  padding: 0 16px;
+  padding: 0 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   margin-bottom: 16px;
   position: sticky;
   top: 0;
@@ -29,8 +29,8 @@
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(226, 232, 240, 0.5);
-  min-height: 120px;
-  height: 120px;
+  min-height: 80px;
+  height: 80px;
   overflow-x: auto;
   overflow-y: hidden;
 }
@@ -38,7 +38,7 @@
 .headerLeft {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   flex: 0 0 auto;
   min-width: 0;
 }
@@ -55,15 +55,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   min-width: 0;
-  margin: 0 12px;
+  margin: 0 auto;
 }
 
 .headerControls {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   flex-wrap: nowrap;
 }
 
@@ -86,8 +86,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: 8px;
   transition: background-color 0.2s ease;
   text-decoration: none;
@@ -99,8 +99,8 @@
 }
 
 .cartIcon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   stroke: #111827;
 }
 
@@ -134,8 +134,8 @@
 }
 
 .logo {
-  width: 120px; /* Reduced to fit all elements */
-  height: 120px; /* Reduced to fit all elements */
+  width: 64px; /* Reduced to fit 80px header */
+  height: 64px; /* Reduced to fit 80px header */
   flex-shrink: 0;
   object-fit: contain;
 }

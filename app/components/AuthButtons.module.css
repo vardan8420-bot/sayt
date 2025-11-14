@@ -150,6 +150,10 @@
   transition: all 0.2s ease;
   white-space: nowrap;
   flex-shrink: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .compactSignIn:hover,
@@ -193,6 +197,10 @@
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .compactSignOut:hover {

@@ -12,6 +12,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
+  height: 40px;
 }
 
 .trigger:hover {
@@ -20,8 +21,9 @@
 }
 
 .triggerHeader {
-  padding: 6px 10px;
+  padding: 8px 12px;
   font-size: 13px;
+  height: 40px;
 }
 
 .globeIcon {
