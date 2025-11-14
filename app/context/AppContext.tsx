@@ -88,6 +88,12 @@ const translations = {
     hy: 'Զտումներ',
     ka: 'ფილტრები'
   },
+  categories: {
+    ru: 'Категории',
+    en: 'Categories',
+    hy: 'Կատեգորիաներ',
+    ka: 'კატეგორიები'
+  },
   toolsTitle: {
     ru: 'Инструменты',
     en: 'Tools',

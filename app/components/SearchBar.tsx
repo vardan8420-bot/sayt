@@ -19,6 +19,8 @@ export function SearchBar() {
 	const router = useRouter()
 	const params = useSearchParams()
 	const { translations, language } = useApp()
+	
+	const categoriesText = translations.categories?.[language] || translations.applyFilters[language]
 	const [q, setQ] = useState(params.get('q') || '')
 	const [suggestions, setSuggestions] = useState<Suggestion[]>([])
 	const [trending, setTrending] = useState<Suggestion[]>([])
@@ -137,55 +139,80 @@ export function SearchBar() {
 
 	return (
 		<div className={styles.container}>
-			<form onSubmit={handleSubmit} className={styles.form}>
-				<input
-					value={q}
-					onChange={(e) => setQ(e.target.value)}
-					onFocus={handleFocus}
-					onBlur={handleBlur}
-					placeholder={translations.searchPlaceholder[language]}
-					className={styles.input}
-				/>
+			<div className={styles.categoriesSection}>
 				<button
-					type="submit"
-					className={styles.button}
+					type="button"
+					className={styles.categoriesButton}
+					aria-label="Categories"
 				>
-					{translations.searchButton[language]}
+					<span>{categoriesText}</span>
+					<svg
+						className={styles.categoriesIcon}
+						width="16"
+						height="16"
+						viewBox="0 0 16 16"
+						fill="none"
+						stroke="currentColor"
+						strokeWidth="2"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					>
+						<line x1="2" y1="4" x2="14" y2="4"></line>
+						<line x1="2" y1="8" x2="14" y2="8"></line>
+						<line x1="2" y1="12" x2="14" y2="12"></line>
+					</svg>
 				</button>
-			</form>
-			{open && (
-				<div onMouseDown={(e) => e.preventDefault()} className={styles.panel}>
-					<div className={styles.panelHeading}>
-						<strong>{translations.searchSuggestionsTitle[language]}</strong>
-					</div>
-					{loading && (
-						<div className={styles.message}>{translations.loading[language]}</div>
-					)}
-					{error && !loading && (
-						<div className={styles.error}>{error}</div>
-					)}
-					{!loading && !error && (
-						<>
-							{q.trim().length >= 2 ? (
-								suggestions.length > 0 ? (
-									suggestions.map(renderSuggestion)
+			</div>
+			<div className={styles.searchSection}>
+				<form onSubmit={handleSubmit} className={styles.form}>
+					<input
+						value={q}
+						onChange={(e) => setQ(e.target.value)}
+						onFocus={handleFocus}
+						onBlur={handleBlur}
+						placeholder={translations.searchPlaceholder[language]}
+						className={styles.input}
+					/>
+					<button
+						type="submit"
+						className={styles.button}
+					>
+						{translations.searchButton[language]}
+					</button>
+				</form>
+				{open && (
+					<div onMouseDown={(e) => e.preventDefault()} className={styles.panel}>
+						<div className={styles.panelHeading}>
+							<strong>{translations.searchSuggestionsTitle[language]}</strong>
+						</div>
+						{loading && (
+							<div className={styles.message}>{translations.loading[language]}</div>
+						)}
+						{error && !loading && (
+							<div className={styles.error}>{error}</div>
+						)}
+						{!loading && !error && (
+							<>
+								{q.trim().length >= 2 ? (
+									suggestions.length > 0 ? (
+										suggestions.map(renderSuggestion)
+									) : (
+										<div className={styles.message}>{translations.searchNoResults[language]}</div>
+									)
+								) : null}
+								<div className={`${styles.panelHeading} ${styles.panelHeadingMuted}`}>
+									<strong>{translations.searchTrendingTitle[language]}</strong>
+								</div>
+								{trending.length > 0 ? (
+									trending.map(renderSuggestion)
 								) : (
 									<div className={styles.message}>{translations.searchNoResults[language]}</div>
-								)
-							) : null}
-							<div className={`${styles.panelHeading} ${styles.panelHeadingMuted}`}>
-								<strong>{translations.searchTrendingTitle[language]}</strong>
-							</div>
-							{trending.length > 0 ? (
-								trending.map(renderSuggestion)
-							) : (
-								<div className={styles.message}>{translations.searchNoResults[language]}</div>
-							)}
-						</>
-					)}
-				</div>
-			)}
+								)}
+							</>
+						)}
+					</div>
+				)}
+			</div>
 		</div>
 	)
 }
-
