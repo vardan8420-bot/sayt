@@ -39,20 +39,10 @@ function validateDatabaseUrlBeforeInit(): { valid: boolean; error?: string } {
 }
 
 const prismaClientSingleton = (): ExtendedPrismaClient => {
-  // Проверяем валидность DATABASE_URL перед созданием клиента
-  const validation = validateDatabaseUrlBeforeInit()
-  
-  // Создаем клиент с отложенным подключением, чтобы избежать ошибок при невалидном DATABASE_URL
+  // Создаем клиент - ошибки подключения будут обработаны в safeDbQuery
   const client = new PrismaClient({
     log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
     errorFormat: 'minimal',
-    // Отключаем автоматическое подключение при инициализации
-    // Подключение будет происходить только при первом запросе
-    datasources: {
-      db: {
-        url: validation.valid ? process.env.DATABASE_URL : undefined,
-      },
-    },
   })
   
   // Используем Accelerate только если настроен DIRECT_URL или PRISMA_ACCELERATE_URL
