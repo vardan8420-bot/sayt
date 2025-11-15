@@ -94,6 +94,108 @@ const translations = {
     hy: 'Կատեգորիաներ',
     ka: 'კატეგორიები'
   },
+  rentalType: {
+    ru: 'Тип аренды',
+    en: 'Rental type',
+    hy: 'Վարձակալության տեսակ',
+    ka: 'გაქირავების ტიპი'
+  },
+  rentalPeriod: {
+    ru: 'Период аренды',
+    en: 'Rental period',
+    hy: 'Վարձակալության ժամկետ',
+    ka: 'გაქირავების პერიოდი'
+  },
+  rentalTypeAll: {
+    ru: 'Все типы',
+    en: 'All types',
+    hy: 'Բոլոր տեսակները',
+    ka: 'ყველა ტიპი'
+  },
+  rentalTypeHouse: {
+    ru: 'Дом',
+    en: 'House',
+    hy: 'Տուն',
+    ka: 'სახლი'
+  },
+  rentalTypeApartment: {
+    ru: 'Квартира',
+    en: 'Apartment',
+    hy: 'Բնակարան',
+    ka: 'ბინა'
+  },
+  rentalTypeVilla: {
+    ru: 'Вилла',
+    en: 'Villa',
+    hy: 'Արձակուրդային տուն',
+    ka: 'ვილა'
+  },
+  rentalTypeCar: {
+    ru: 'Машина',
+    en: 'Car',
+    hy: 'Ավտոմեքենա',
+    ka: 'მანქანა'
+  },
+  rentalTypeEquipment: {
+    ru: 'Оборудование',
+    en: 'Equipment',
+    hy: 'Սարքավորում',
+    ka: 'მოწყობილობა'
+  },
+  rentalPeriodHourly: {
+    ru: 'Почасовая',
+    en: 'Hourly',
+    hy: 'Ժամային',
+    ka: 'საათობრივი'
+  },
+  rentalPeriodDaily: {
+    ru: 'Дневная',
+    en: 'Daily',
+    hy: 'Օրական',
+    ka: 'დღიური'
+  },
+  rentalPeriodWeekly: {
+    ru: 'Недельная',
+    en: 'Weekly',
+    hy: 'Շաբաթական',
+    ka: 'ყოველკვირეული'
+  },
+  rentalPeriodMonthly: {
+    ru: 'Месячная',
+    en: 'Monthly',
+    hy: 'Ամսական',
+    ka: 'თვიური'
+  },
+  rentalPeriodYearly: {
+    ru: 'Годовая',
+    en: 'Yearly',
+    hy: 'Տարեկան',
+    ka: 'წლიური'
+  },
+  sortBy: {
+    ru: 'Сортировка',
+    en: 'Sort by',
+    hy: 'Տեսակավորել',
+    ka: 'დახარისხება'
+  },
+  sortByPrice: {
+    ru: 'По цене',
+    en: 'By price',
+    hy: 'Գնով',
+    ka: 'ფასით'
+  },
+  sortByDate: {
+    ru: 'По дате',
+    en: 'By date',
+    hy: 'Ամսաթվով',
+    ka: 'თარიღით'
+  },
+  sortByPopularity: {
+    ru: 'По популярности',
+    en: 'By popularity',
+    hy: 'Հանրաճանաչությամբ',
+    ka: 'პოპულარობით'
+  },
   toolsTitle: {
     ru: 'Инструменты',
     en: 'Tools',

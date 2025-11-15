@@ -3,6 +3,7 @@ import './globals.css'
 import { generateMetadata as genMeta, defaultSEO } from '../lib/seo'
 import { WebVitals } from './components/WebVitals'
 import { Providers } from './providers'
+import { ErrorBoundary } from './components/ErrorBoundary'
 
 export const metadata: Metadata = {
   ...genMeta(defaultSEO),
@@ -138,7 +139,9 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>
-          {children}
+          <ErrorBoundary>
+            {children}
+          </ErrorBoundary>
           <WebVitals />
         </Providers>
       </body>

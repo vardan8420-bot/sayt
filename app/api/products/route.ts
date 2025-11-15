@@ -129,8 +129,12 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Too many requests' }, { status: 429, headers: rate.headers })
     }
     
-    // Проверка наличия DATABASE_URL
-    if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('placeholder')) {
+    // Валидация DATABASE_URL
+    const { validateDatabaseUrl } = await import('../../../lib/db-utils')
+    const dbValidation = validateDatabaseUrl()
+    
+    if (!dbValidation.valid) {
+      // База данных не настроена - возвращаем пустой результат
       return NextResponse.json({
         products: [],
         pagination: {
@@ -139,7 +143,9 @@ export async function GET(req: NextRequest) {
           total: 0,
           totalPages: 0,
         },
+        error: 'Database not configured',
       }, {
+        status: 200, // 200 чтобы не ломать фронтенд
         headers: {
           ...rate.headers,
           'Cache-Control': 's-maxage=60, stale-while-revalidate=300'
@@ -211,8 +217,11 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-      [products, total] = await Promise.all([
-        prisma.product.findMany({
+      // Безопасное выполнение запросов к БД
+      const { safeDbQuery } = await import('../../../lib/db-utils')
+      
+      const productsResult = await safeDbQuery(
+        () => prisma.product.findMany({
           where,
           include: {
             seller: { select: { id: true, name: true, reputationScore: true } },
@@ -223,11 +232,43 @@ export async function GET(req: NextRequest) {
           skip: (page - 1) * limit,
           take: limit,
         }),
-        prisma.product.count({ where }),
-      ])
-    } catch (dbError: any) {
-      // Если база данных недоступна, возвращаем пустой список
-      console.error('Database connection error:', dbError)
+        [] // fallback - пустой массив
+      )
+
+      const countResult = await safeDbQuery(
+        () => prisma.product.count({ where }),
+        0 // fallback - 0
+      )
+
+      // Если были ошибки БД, возвращаем fallback
+      if (productsResult.error || countResult.error) {
+        await logEvent('warn', 'products.list.db_unavailable', { 
+          error: productsResult.errorMessage || countResult.errorMessage 
+        })
+        return NextResponse.json({
+          products: [],
+          pagination: {
+            page,
+            limit,
+            total: 0,
+            totalPages: 0,
+          },
+          error: 'Database temporarily unavailable',
+        }, {
+          status: 200,
+          headers: {
+            ...rate.headers,
+            'Cache-Control': 's-maxage=60, stale-while-revalidate=300'
+          }
+        })
+      }
+
+      products = productsResult.data
+      total = countResult.data
+    } catch (error: any) {
+      // Неожиданная ошибка - логируем и возвращаем fallback
+      captureError(error, { route: '/api/products', method: 'GET' })
+      await logEvent('error', 'products.list.unexpected_error', { error: error?.message })
       return NextResponse.json({
         products: [],
         pagination: {
@@ -236,7 +277,9 @@ export async function GET(req: NextRequest) {
           total: 0,
           totalPages: 0,
         },
+        error: 'Unexpected error',
       }, {
+        status: 200,
         headers: {
           ...rate.headers,
           'Cache-Control': 's-maxage=60, stale-while-revalidate=300'

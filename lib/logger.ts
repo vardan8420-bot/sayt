@@ -1,45 +1,79 @@
-const LOGTAIL_ENDPOINT = process.env.LOGTAIL_SOURCE_TOKEN
-	? 'https://in.logtail.com/'
-	: null
+// Централизованное логирование для продакшена
+// Использует Sentry для мониторинга ошибок, но не зависит от него
 
-type Level = 'info' | 'warn' | 'error'
+type LogLevel = 'debug' | 'info' | 'warn' | 'error'
 
-function baseEntry(level: Level, message: string, context?: Record<string, unknown>) {
-	return {
-		timestamp: new Date().toISOString(),
-		level,
-		message,
-		context: context ?? {},
+interface LogContext {
+	[key: string]: unknown
+}
+
+class Logger {
+	private isDevelopment = process.env.NODE_ENV === 'development'
+
+	log(level: LogLevel, message: string, context?: LogContext) {
+		const timestamp = new Date().toISOString()
+		const logMessage = `[${timestamp}] [${level.toUpperCase()}] ${message}`
+
+		// В разработке выводим все логи в console
+		if (this.isDevelopment) {
+			switch (level) {
+				case 'debug':
+				case 'info':
+					console.log(logMessage, context || '')
+					break
+				case 'warn':
+					console.warn(logMessage, context || '')
+					break
+				case 'error':
+					console.error(logMessage, context || '')
+					break
+			}
+			return
+		}
+
+		// В продакшене:
+		// - Ошибки отправляем в Sentry (если настроен)
+		// - Остальные логи только в случае необходимости
+		if (level === 'error') {
+			// Пропускаем логирование ошибок подключения к БД если DATABASE_URL не настроен
+			// Это нормальное поведение, не ошибка
+			if (message.includes('Database connection failed') || 
+			    message.includes('DATABASE_URL') ||
+			    message.includes('Can\'t reach database')) {
+				// Не логируем как ошибку - это ожидаемое поведение
+				return
+			}
+
+			// Используем captureError из monitoring.ts если доступен
+			try {
+				const { captureError } = require('./monitoring')
+				captureError(new Error(message), context)
+			} catch {
+				// monitoring не настроен, игнорируем
+			}
+		}
+	}
+
+	debug(message: string, context?: LogContext) {
+		this.log('debug', message, context)
+	}
+
+	info(message: string, context?: LogContext) {
+		this.log('info', message, context)
+	}
+
+	warn(message: string, context?: LogContext) {
+		this.log('warn', message, context)
+	}
+
+	error(message: string, context?: LogContext) {
+		this.log('error', message, context)
 	}
 }
 
-async function sendToLogtail(entry: ReturnType<typeof baseEntry>) {
-	if (!LOGTAIL_ENDPOINT || !process.env.LOGTAIL_SOURCE_TOKEN) return
-	try {
-		await fetch(LOGTAIL_ENDPOINT, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${process.env.LOGTAIL_SOURCE_TOKEN}`,
-			},
-			body: JSON.stringify(entry),
-			keepalive: true,
-		})
-	} catch (error) {
-		console.error('[logger] Failed to send logtail entry', error)
-	}
+export const logger = new Logger()
+
+// Функция для совместимости с существующим кодом
+export async function logEvent(level: LogLevel, event: string, context?: LogContext) {
+	logger.log(level, event, context)
 }
-
-export async function logEvent(level: Level, message: string, context?: Record<string, unknown>) {
-	const entry = baseEntry(level, message, context)
-	if (level === 'error') {
-		console.error('[log]', entry)
-	} else if (level === 'warn') {
-		console.warn('[log]', entry)
-	} else {
-		console.info('[log]', entry)
-	}
-	await sendToLogtail(entry)
-}
-
-

@@ -8,6 +8,56 @@ import { enforceRateLimit } from '../../../../lib/rate-limit'
 import { captureError } from '../../../../lib/monitoring'
 import { logEvent } from '../../../../lib/logger'
 
+// GET - получить один товар
+export async function GET(
+	req: NextRequest,
+	context: { params: Promise<{ productId: string }> }
+) {
+	const { productId } = await context.params
+	try {
+		const rate = await enforceRateLimit(req, { tag: 'products:get', limit: 60 })
+		if (!rate.ok) {
+			return NextResponse.json({ error: 'Too many requests' }, { status: 429, headers: rate.headers })
+		}
+
+		const product = await prisma.product.findUnique({
+			where: { id: productId },
+			select: {
+				id: true,
+				title: true,
+				description: true,
+				price: true,
+				images: true,
+				slug: true,
+				stock: true,
+				published: true,
+				seller: {
+					select: {
+						id: true,
+						name: true,
+					},
+				},
+				category: {
+					select: {
+						id: true,
+						name: true,
+						slug: true,
+					},
+				},
+			},
+		})
+
+		if (!product) {
+			return NextResponse.json({ error: 'Product not found' }, { status: 404 })
+		}
+
+		return NextResponse.json(product, { headers: rate.headers })
+	} catch (error: any) {
+		console.error('Error fetching product:', error)
+		return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+	}
+}
+
 export async function PATCH(
 	req: NextRequest,
 	context: { params: Promise<{ productId: string }> }

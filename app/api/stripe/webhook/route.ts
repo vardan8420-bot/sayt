@@ -40,7 +40,10 @@ export async function POST(req: NextRequest) {
       break
 
     default:
-      console.log(`Unhandled event type ${event.type}`)
+      // В продакшене не логируем необработанные события в console
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`Unhandled event type ${event.type}`)
+      }
   }
 
   return NextResponse.json({ received: true })

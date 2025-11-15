@@ -16,9 +16,20 @@ export async function GET(req: NextRequest) {
 		return NextResponse.json({ error: 'Too many requests' }, { status: 429, headers: rate.headers })
 	}
 
-	// Проверка наличия DATABASE_URL
-	if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('placeholder')) {
-		return NextResponse.json({ products: [], fallback: true }, { headers: rate.headers })
+	// Валидация DATABASE_URL
+	const { validateDatabaseUrl } = await import('../../../lib/db-utils')
+	const dbValidation = validateDatabaseUrl()
+	
+	if (!dbValidation.valid) {
+		// База данных не настроена - возвращаем пустой результат
+		return NextResponse.json({ 
+			products: [], 
+			fallback: true, 
+			error: dbValidation.error || 'Database not configured' 
+		}, { 
+			status: 200, 
+			headers: rate.headers 
+		})
 	}
 
 	try {

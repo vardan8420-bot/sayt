@@ -46,13 +46,48 @@ export const createJobPostSchema = z.object({
 // Схема для обновления товара
 export const updateProductSchema = createProductSchema.partial()
 
+// Схема для добавления в корзину
+export const addToCartSchema = z.object({
+  productId: z.string().min(1, 'Product ID is required'),
+  quantity: z.number().int().positive().min(1).max(100).default(1),
+})
+
+// Схема для обновления корзины
+export const updateCartSchema = z.object({
+  quantity: z.number().int().positive().min(1).max(100),
+})
+
 // Схема для создания заказа
 export const createOrderSchema = z.object({
   productId: z.string().optional(),
-  serviceId: z.string().optional(),
-  quantity: z.number().int().positive().default(1),
+  cartItemIds: z.array(z.string()).optional(),
+  shippingAddressId: z.string().min(1).optional(),
   couponCode: z.string().optional(),
-  shippingAddressId: z.string().optional(),
+})
+
+// Схема для создания отзыва
+export const createReviewSchema = z.object({
+  productId: z.string().optional(),
+  targetId: z.string().optional(),
+  rating: z.number().int().min(1).max(5),
+  comment: z.string().max(5000).optional(),
+  images: z.array(z.string().url()).max(5).optional(),
+}).refine((data) => data.productId || data.targetId, {
+  message: 'Product ID or target user ID is required',
+})
+
+// Схема для добавления в избранное
+export const addToFavoritesSchema = z.object({
+  productId: z.string().optional(),
+  serviceId: z.string().optional(),
+}).refine((data) => data.productId || data.serviceId, {
+  message: 'Product ID or Service ID is required',
+})
+
+// Схема для обновления уведомлений
+export const updateNotificationsSchema = z.object({
+  notificationIds: z.array(z.string()).optional(),
+  markAllAsRead: z.boolean().optional(),
 })
 
 // Типы для TypeScript

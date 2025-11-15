@@ -11,12 +11,20 @@ export interface SEOConfig {
 }
 
 export function generateMetadata(config: SEOConfig): Metadata {
+  // Получаем базовый URL из переменных окружения
+  let baseUrl = 'https://sayt.vercel.app'
+  if (process.env.NEXTAUTH_URL) {
+    baseUrl = process.env.NEXTAUTH_URL
+  } else if (process.env.VERCEL_URL) {
+    baseUrl = `https://${process.env.VERCEL_URL}`
+  }
+  
   const {
     title,
     description,
     keywords = [],
     image = '/og-image.jpg',
-    url = 'https://sayt.example.com',
+    url = config.url || baseUrl,
     type = 'website',
     locale = 'en',
   } = config
@@ -128,7 +136,7 @@ export const defaultSEO: SEOConfig = {
     'SEO optimizer',
     'file uploader',
   ],
-  url: 'https://sayt.example.com',
+  url: process.env.NEXTAUTH_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://sayt.vercel.app'),
   type: 'website',
 }
 

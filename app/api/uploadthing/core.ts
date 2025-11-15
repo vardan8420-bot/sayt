@@ -12,8 +12,11 @@ export const ourFileRouter = {
       return { userId: 'user-id' }
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      console.log('Upload complete for userId:', metadata.userId)
-      console.log('file url', file.url)
+      // В продакшене не логируем в console
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Upload complete for userId:', metadata.userId)
+        console.log('file url', file.url)
+      }
       return { uploadedBy: metadata.userId, url: file.url }
     }),
 

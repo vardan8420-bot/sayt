@@ -1,0 +1,62 @@
+.container {
+	width: 100%;
+}
+
+.message {
+	padding: 8px 12px;
+	margin-bottom: 12px;
+	border-radius: 6px;
+	background-color: #dcfce7;
+	color: #166534;
+	font-size: 14px;
+}
+
+.actions {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.buttonPrimary,
+.buttonSecondary {
+	padding: 12px 24px;
+	border-radius: 6px;
+	font-size: 16px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s;
+	border: none;
+	flex: 1;
+	min-width: 140px;
+}
+
+.buttonPrimary {
+	background-color: #2563eb;
+	color: white;
+}
+
+.buttonPrimary:hover:not(:disabled) {
+	background-color: #1d4ed8;
+}
+
+.buttonPrimary:disabled {
+	background-color: #9ca3af;
+	cursor: not-allowed;
+}
+
+.buttonSecondary {
+	background-color: white;
+	color: #2563eb;
+	border: 2px solid #2563eb;
+}
+
+.buttonSecondary:hover:not(:disabled) {
+	background-color: #eff6ff;
+}
+
+.buttonSecondary:disabled {
+	color: #9ca3af;
+	border-color: #9ca3af;
+	cursor: not-allowed;
+}
+

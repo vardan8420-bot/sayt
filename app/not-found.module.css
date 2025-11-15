@@ -1,0 +1,76 @@
+.container {
+	min-height: 60vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+}
+
+.content {
+	max-width: 600px;
+	text-align: center;
+}
+
+.title {
+	font-size: 72px;
+	font-weight: 700;
+	margin-bottom: 16px;
+	color: #2563eb;
+	line-height: 1;
+}
+
+.subtitle {
+	font-size: 24px;
+	font-weight: 600;
+	margin-bottom: 16px;
+	color: #111827;
+}
+
+.message {
+	font-size: 18px;
+	color: #6b7280;
+	margin-bottom: 32px;
+	line-height: 1.6;
+}
+
+.actions {
+	display: flex;
+	gap: 12px;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.button {
+	display: inline-block;
+	padding: 12px 24px;
+	background-color: #2563eb;
+	color: white;
+	border: none;
+	border-radius: 6px;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: 600;
+	transition: all 0.2s;
+}
+
+.button:hover {
+	background-color: #1d4ed8;
+}
+
+.link {
+	display: inline-block;
+	padding: 12px 24px;
+	background-color: white;
+	color: #2563eb;
+	border: 2px solid #2563eb;
+	border-radius: 6px;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: 600;
+	transition: all 0.2s;
+}
+
+.link:hover {
+	background-color: #eff6ff;
+}
+

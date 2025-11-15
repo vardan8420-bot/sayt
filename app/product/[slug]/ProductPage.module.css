@@ -37,6 +37,12 @@
   color: #2563eb;
 }
 
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .price {
   font-size: 22px;
   font-weight: 800;

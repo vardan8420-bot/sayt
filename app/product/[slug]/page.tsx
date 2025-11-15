@@ -2,6 +2,9 @@ import prisma from '../../../lib/prisma'
 import Image from 'next/image'
 import Link from 'next/link'
 import { RecommendationsRail } from '@/app/components/RecommendationsRail'
+import { ProductActions } from '@/app/components/ProductActions'
+import { ReviewsSection } from '@/app/components/ReviewsSection'
+import { FavoriteButton } from '@/app/components/FavoriteButton'
 import styles from './ProductPage.module.css'
 
 export const revalidate = 300
@@ -29,7 +32,8 @@ export default async function ProductPage({ params }: { params: { slug: string }
 		)
 	}
 	const cover = product.images?.[0] || '/icon-512.png'
-	const canonical = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/product/${product.slug}`
+	const baseUrl = process.env.NEXTAUTH_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://sayt.vercel.app')
+	const canonical = `${baseUrl}/product/${product.slug}`
 	const breadcrumbJsonLd = {
 		'@context': 'https://schema.org',
 		'@type': 'BreadcrumbList',
@@ -38,7 +42,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
 				'@type': 'ListItem',
 				position: 1,
 				name: 'Главная',
-				item: process.env.NEXTAUTH_URL || 'http://localhost:3000',
+				item: baseUrl,
 			},
 			{
 				'@type': 'ListItem',
@@ -81,12 +85,16 @@ export default async function ProductPage({ params }: { params: { slug: string }
 							</>
 						)}
 					</div>
-					<div className={styles.price}>${Number(product.price).toFixed(2)}</div>
-					<p className={styles.description}>{product.description}</p>
-					<div className={styles.actions}>
-						<button className={styles.buttonPrimary}>Добавить в корзину</button>
-						<button className={styles.buttonSecondary}>Купить сейчас</button>
+					<div className={styles.priceRow}>
+						<div className={styles.price}>${Number(product.price).toFixed(2)}</div>
+						<FavoriteButton productId={product.id} />
 					</div>
+					<p className={styles.description}>{product.description}</p>
+					<ProductActions
+						productId={product.id}
+						stock={product.stock}
+						published={product.published}
+					/>
 					<div className={styles.meta}>
 						Продавец: {product.seller?.name || '—'} • Отзывов: {product.reviews.length}
 					</div>
@@ -95,6 +103,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
 			<div className={styles.recommendations}>
 				<RecommendationsRail variant="similar" productId={product.id} limit={6} />
 			</div>
+			<ReviewsSection productId={product.id} />
 			<script
 				type="application/ld+json"
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

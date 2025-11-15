@@ -1,0 +1,238 @@
+.container {
+	margin-top: 48px;
+	padding-top: 24px;
+	border-top: 1px solid #e5e7eb;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 24px;
+}
+
+.title {
+	font-size: 24px;
+	font-weight: 700;
+}
+
+.ratingSummary {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.avgRating {
+	font-size: 24px;
+	font-weight: 700;
+	color: #2563eb;
+}
+
+.reviewCount {
+	color: #6b7280;
+	font-size: 14px;
+}
+
+.stars {
+	display: flex;
+	gap: 4px;
+}
+
+.star {
+	background: none;
+	border: none;
+	font-size: 20px;
+	color: #d1d5db;
+	cursor: pointer;
+	padding: 0;
+	transition: color 0.2s;
+}
+
+.starFilled {
+	color: #fbbf24;
+}
+
+.star:hover:not(:disabled) {
+	color: #f59e0b;
+}
+
+.star:disabled {
+	cursor: not-allowed;
+}
+
+.addReview {
+	margin-bottom: 32px;
+	padding: 16px;
+	background-color: #f9fafb;
+	border-radius: 8px;
+}
+
+.addButton {
+	padding: 12px 24px;
+	background-color: #2563eb;
+	color: white;
+	border: none;
+	border-radius: 6px;
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.addButton:hover {
+	background-color: #1d4ed8;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.error {
+	padding: 12px;
+	background-color: #fee2e2;
+	color: #dc2626;
+	border-radius: 6px;
+	font-size: 14px;
+}
+
+.formGroup {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.formGroup label {
+	font-weight: 600;
+	font-size: 14px;
+	color: #374151;
+}
+
+.textarea {
+	padding: 12px;
+	border: 1px solid #e5e7eb;
+	border-radius: 6px;
+	font-size: 16px;
+	font-family: inherit;
+	resize: vertical;
+	transition: border-color 0.2s;
+}
+
+.textarea:focus {
+	outline: none;
+	border-color: #2563eb;
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.formActions {
+	display: flex;
+	gap: 12px;
+}
+
+.submitButton,
+.cancelButton {
+	padding: 12px 24px;
+	border-radius: 6px;
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.submitButton {
+	background-color: #2563eb;
+	color: white;
+	border: none;
+}
+
+.submitButton:hover:not(:disabled) {
+	background-color: #1d4ed8;
+}
+
+.submitButton:disabled {
+	background-color: #9ca3af;
+	cursor: not-allowed;
+}
+
+.cancelButton {
+	background-color: white;
+	color: #374151;
+	border: 1px solid #e5e7eb;
+}
+
+.cancelButton:hover:not(:disabled) {
+	background-color: #f9fafb;
+}
+
+.cancelButton:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.reviews {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.empty {
+	padding: 48px;
+	text-align: center;
+	color: #6b7280;
+	font-size: 16px;
+}
+
+.review {
+	padding: 20px;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background-color: white;
+}
+
+.reviewHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 12px;
+}
+
+.reviewAuthor {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.authorImage {
+	border-radius: 50%;
+}
+
+.authorName {
+	font-weight: 600;
+	font-size: 16px;
+	margin-bottom: 4px;
+}
+
+.reviewDate {
+	font-size: 14px;
+	color: #6b7280;
+}
+
+.reviewComment {
+	font-size: 16px;
+	line-height: 1.6;
+	color: #374151;
+	margin-bottom: 12px;
+}
+
+.reviewImages {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.reviewImage {
+	border-radius: 6px;
+	object-fit: cover;
+}
+

@@ -8,6 +8,7 @@ import { CurrencyButton } from './CurrencyButton'
 import { LanguageButton } from './LanguageButton'
 import { MegaMenu } from './MegaMenu'
 import { AuthButtons } from './AuthButtons'
+import { NotificationsBell } from './NotificationsBell'
 import { ProductGrid } from './ProductGrid'
 import { SearchBar } from './SearchBar'
 import { FiltersBar } from './FiltersBar'
@@ -190,6 +191,7 @@ export function Landing() {
 					<div className={styles.headerAuth}>
 						<AuthButtons compact />
 					</div>
+					<NotificationsBell />
 					<Link href="/cart" className={styles.cartLink} aria-label="Cart">
 						<svg className={styles.cartIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
 							<circle cx="9" cy="21" r="1"></circle>

@@ -53,6 +53,38 @@ const nextConfig = {
           {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()'
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains'
+          }
+        ],
+      },
+      {
+        // CORS для API endpoints (только для определенных доменов в продакшене)
+        source: '/api/:path*',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: process.env.NODE_ENV === 'production' 
+              ? (process.env.ALLOWED_ORIGINS || process.env.NEXTAUTH_URL || '')
+              : '*'
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET, POST, PUT, DELETE, PATCH, OPTIONS'
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'Content-Type, Authorization'
+          },
+          {
+            key: 'Access-Control-Max-Age',
+            value: '86400'
+          },
+          {
+            key: 'Access-Control-Allow-Credentials',
+            value: 'true'
           }
         ],
       },
