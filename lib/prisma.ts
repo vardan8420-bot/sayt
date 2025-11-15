@@ -1,10 +1,9 @@
 import { PrismaClient } from '@prisma/client'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
-type PrismaClientWithAccelerate = ReturnType<typeof withAccelerate>
-type ExtendedPrismaClient = ReturnType<typeof withAccelerate> extends PrismaClient
-  ? ReturnType<typeof withAccelerate>
-  : PrismaClient
+// Типизация для Prisma клиента с поддержкой Accelerate
+type PrismaClientWithAccelerate = ReturnType<ReturnType<typeof withAccelerate>>
+type ExtendedPrismaClient = PrismaClient | PrismaClientWithAccelerate
 
 // Валидация DATABASE_URL перед инициализацией
 function validateDatabaseUrlBeforeInit(): { valid: boolean; error?: string } {
@@ -47,10 +46,10 @@ const prismaClientSingleton = (): ExtendedPrismaClient => {
   
   // Используем Accelerate только если настроен DIRECT_URL или PRISMA_ACCELERATE_URL
   if (process.env.PRISMA_ACCELERATE_URL || process.env.DIRECT_URL) {
-    return client.$extends(withAccelerate()) as ExtendedPrismaClient
+    return client.$extends(withAccelerate()) as PrismaClientWithAccelerate
   }
   
-  return client as ExtendedPrismaClient
+  return client
 }
 
 declare global {

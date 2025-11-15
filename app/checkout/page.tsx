@@ -83,7 +83,6 @@ export default function CheckoutPage() {
 							images: product.images || [],
 							slug: product.slug,
 							stock: product.stock,
-							published: product.published,
 							seller: product.seller || { id: product.seller?.id || '', name: product.seller?.name || null },
 						},
 					},

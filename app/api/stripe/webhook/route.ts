@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { stripe } from '../../../../lib/stripe'
 import { prisma } from '../../../../lib/prisma'
+import { PrismaClient } from '@prisma/client'
 import Stripe from 'stripe'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
     case 'payment_intent.succeeded':
       const paymentIntent = event.data.object as Stripe.PaymentIntent
       // Обновить статус заказа
-      await prisma.order.update({
+      await (prisma as PrismaClient).order.update({
         where: { stripePaymentId: paymentIntent.id },
         data: { status: 'PROCESSING' },
       })
@@ -33,7 +34,7 @@ export async function POST(req: NextRequest) {
 
     case 'payment_intent.payment_failed':
       const failedPayment = event.data.object as Stripe.PaymentIntent
-      await prisma.order.update({
+      await (prisma as PrismaClient).order.update({
         where: { stripePaymentId: failedPayment.id },
         data: { status: 'CANCELLED' },
       })
